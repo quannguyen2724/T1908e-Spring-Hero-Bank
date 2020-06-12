@@ -8,6 +8,7 @@ namespace T1908e_Spring_Hero_Bank
         {
             Console.WriteLine("Git Test");
             Console.WriteLine("Git Test 2");
+            Console.WriteLine("Git Test 3");
         }
     }
 }
