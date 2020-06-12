@@ -2,6 +2,6 @@
 {
     public class Account
     {
-        
+        public string alo { get; set; }
     }
 }
