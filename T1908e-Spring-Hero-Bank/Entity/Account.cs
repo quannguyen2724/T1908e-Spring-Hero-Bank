@@ -2,18 +2,37 @@
 {
     public class Account
     {
-          public string AccountNumber { get; set; }
-               public double Balance { get; set; }
-               public string Username { get; set; }
-               public string PasswordHash { get; set; }
-               public string Salt { get; set; }
-               public string Email { get; set; }
-               public string Phone { get; set; }
-               public string Fullname { get; set; }
-               public AccountStatus Status { get; set; }
+        public string AccountNumber { get; set; }
+        public double Balance { get; set; }
+        public string Username { get; set; }
+        public string PasswordHash { get; set; }
+        public string Salt { get; set; }
+        public string Email { get; set; }
+        public string Phone { get; set; }
+        public string Fullname { get; set; }
+        public int role { get; set; }
+        public AccountStatus Status { get; set; }
+
+        public override string ToString()
+        {
+            return "--------------------" + "\n" + 
+                   "Account Number: " + AccountNumber + "\n" + 
+                   "Balance: " + Balance + "\n" + 
+                   "Username: " + Username + "\n" + 
+                   "PasswordHash: " + PasswordHash + "\n" + 
+                   "Salt: " + Salt + "\n" + 
+                   "Email: " + Email + "\n" + 
+                   "Phone: " + Phone + "\n" + 
+                   "Full Name: " + Fullname + "\n" + 
+                   "Status: " + Status + "\n" + 
+                   "--------------------";
+        }
     }
+    
     public enum AccountStatus
     {
-        Active = 1, Deactive = -1, Lock = 0
+        Active = 1,
+        Deactive = -1,
+        Lock = 0
     }
 }
