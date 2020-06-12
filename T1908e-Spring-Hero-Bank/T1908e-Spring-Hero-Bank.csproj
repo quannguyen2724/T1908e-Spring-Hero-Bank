@@ -42,6 +42,8 @@
     <Compile Include="Controller\TransactionController.cs" />
     <Compile Include="Entity\Account.cs" />
     <Compile Include="Entity\Transaction.cs" />
+    <Compile Include="Helper\ConnectionHelper.cs" />
+    <Compile Include="Helper\PasswordHelper.cs" />
     <Compile Include="Model\AccountModel.cs" />
     <Compile Include="Model\TransactionModel.cs" />
     <Compile Include="Program.cs" />
