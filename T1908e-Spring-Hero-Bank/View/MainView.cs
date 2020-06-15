@@ -10,15 +10,12 @@ namespace T1908e_Spring_Hero_Bank.View
             while (true)
             {
                 Console.Clear();
-                Console.WriteLine("--------Student Manager---------");
-                Console.WriteLine("1. Add student.");
-                Console.WriteLine("2. List student.");
-                Console.WriteLine("3. Edit student.");
-                Console.WriteLine("4. Delete student.");
-                Console.WriteLine("5. Loggin student.");
-                Console.WriteLine("6. Exist.");
+                Console.WriteLine("—— Ngân hàng Spring Hero Bank ——");
+                Console.WriteLine("1. Đăng ký tài khoản.");
+                Console.WriteLine("2. Đăng nhập hệ thống.");
+                Console.WriteLine("3. Thoát.");
                 Console.WriteLine("--------------------------------");
-                Console.WriteLine("Enter your choice: ");
+                Console.WriteLine("Nhập lựa chọn của bạn (1, 2, 3): ");
                 var choice =  int.Parse(Console.ReadLine());
                 switch (choice)
                 {
@@ -31,18 +28,9 @@ namespace T1908e_Spring_Hero_Bank.View
                     case 3:
                         // controller.EditStudent();
                         break;
-                    case 4:
-                        // controller.DeleteStudent();
-                        break;
-                    case 5:
-                        // controller.LogginStudent();
-                        break;
-                    case 6:
-                        Console.WriteLine("Good bye");
-                        break;
                 }
                 Console.ReadLine();
-                if (choice == 6)
+                if (choice == 3)
                 {
                     break;
                 }

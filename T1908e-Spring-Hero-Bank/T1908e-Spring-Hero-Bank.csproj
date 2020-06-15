@@ -106,6 +106,7 @@
     <Compile Include="Entity\Account.cs" />
     <Compile Include="Entity\Transaction.cs" />
     <Compile Include="Helper\ConnectionHelper.cs" />
+    <Compile Include="Helper\InputHelper.cs" />
     <Compile Include="Helper\PasswordHelper.cs" />
     <Compile Include="Model\AccountModel.cs" />
     <Compile Include="Model\TransactionModel.cs" />
