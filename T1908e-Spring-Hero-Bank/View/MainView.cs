@@ -1,12 +1,15 @@
 ﻿using System;
+using T1908e_Spring_Hero_Bank.Controller;
+using T1908e_Spring_Hero_Bank.Helper;
 
 namespace T1908e_Spring_Hero_Bank.View
 {
     public class MainView
     {
+        private static  AccountController _accountController = new AccountController();
+        private static  InputHelper _inputHelper = new InputHelper();
         public static void GenerateMenu()
         {
-            // var controller = new StudentController();
             while (true)
             {
                 Console.Clear();
@@ -20,13 +23,20 @@ namespace T1908e_Spring_Hero_Bank.View
                 switch (choice)
                 {
                     case 1:
-                        // controller.CreateStudent();
+                        _accountController.Register();
                         break;
                     case 2:
-                        // controller.ShowListStudent("");
+                        if ((int) _accountController.Login().Role==1)
+                        {
+                            AdminMenu();
+                        }
+                        else
+                        {
+                            UserMenu();
+                        }
                         break;
                     case 3:
-                        // controller.EditStudent();
+                        Console.WriteLine("Good bye!!!");
                         break;
                 }
                 Console.ReadLine();
@@ -35,6 +45,16 @@ namespace T1908e_Spring_Hero_Bank.View
                     break;
                 }
             }
+        }
+
+        private static void AdminMenu()
+        {
+            throw new NotImplementedException();
+        }
+
+        private static void UserMenu()
+        {
+            throw new NotImplementedException();
         }
     }
 }

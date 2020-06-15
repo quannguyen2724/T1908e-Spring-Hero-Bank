@@ -51,5 +51,15 @@ namespace T1908e_Spring_Hero_Bank.Controller
 
             Console.WriteLine("Account not found");
         }
+
+        public void Register()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Account Login()
+        {
+            throw new NotImplementedException();
+        }
     }
 }
