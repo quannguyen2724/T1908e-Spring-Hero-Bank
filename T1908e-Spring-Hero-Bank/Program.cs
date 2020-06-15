@@ -9,10 +9,7 @@ namespace T1908e_Spring_Hero_Bank
         {
            AccountController accountController = new AccountController();
            accountController.CheckAccountByAccountnumber();
-           Console.WriteLine("qweqwe");
-           Console.WriteLine("qweqwe");
-           Console.WriteLine("qweqwe");
-           Console.WriteLine("qweqwe");
+           Console.WriteLine("text 1");
         }
     }
 }
