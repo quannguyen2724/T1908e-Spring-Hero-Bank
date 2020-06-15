@@ -9,6 +9,7 @@ namespace T1908e_Spring_Hero_Bank.Controller
     public class AccountController
     {
         private AccountModel _accountModel = new AccountModel();
+
         public void CheckAccountByUsername()
         {
             Console.WriteLine("Enter username: ");
@@ -19,6 +20,7 @@ namespace T1908e_Spring_Hero_Bank.Controller
                 Console.WriteLine(account.ToString());
                 return;
             }
+
             Console.WriteLine("Account not found");
         }
 
@@ -32,6 +34,7 @@ namespace T1908e_Spring_Hero_Bank.Controller
                 Console.WriteLine(account.ToString());
                 return;
             }
+
             Console.WriteLine("Account not found");
         }
 
@@ -45,6 +48,7 @@ namespace T1908e_Spring_Hero_Bank.Controller
                 Console.WriteLine(account.ToString());
                 return;
             }
+
             Console.WriteLine("Account not found");
         }
     }

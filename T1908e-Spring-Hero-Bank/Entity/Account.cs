@@ -1,4 +1,6 @@
-﻿namespace T1908e_Spring_Hero_Bank.Entity
+﻿using Org.BouncyCastle.Asn1.X509;
+
+namespace T1908e_Spring_Hero_Bank.Entity
 {
     public class Account
     {
@@ -10,7 +12,7 @@
         public string Email { get; set; }
         public string Phone { get; set; }
         public string Fullname { get; set; }
-        public int role { get; set; }
+        public Role Role { get; set; }
         public AccountStatus Status { get; set; }
 
         public override string ToString()
@@ -24,11 +26,18 @@
                    "Email: " + Email + "\n" + 
                    "Phone: " + Phone + "\n" + 
                    "Full Name: " + Fullname + "\n" + 
+                   "Role: " + Role + "\n" + 
                    "Status: " + Status + "\n" + 
                    "--------------------";
         }
     }
-    
+
+    public enum Role
+    {
+        Admin=1,
+        User=0
+    }
+
     public enum AccountStatus
     {
         Active = 1,
