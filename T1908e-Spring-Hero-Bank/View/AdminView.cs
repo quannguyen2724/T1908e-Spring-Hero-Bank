@@ -48,16 +48,16 @@ namespace T1908e_Spring_Hero_Bank.View
                         _accountController.ĐăngKý(_accountController.KiểmTraTàiKhoản());
                         break;
                     case 7:
-                        _accountController.KíchHoạtTàiKhoản(_accountController.KiểmTraTàiKhoản());
+                        _accountController.ThayĐổiThôngTinAccount("KíchHoạtTàiKhoản","UserName",_accountController.KiểmTraTàiKhoản());
                         break;
                     case 8:
                         _transactionController.TruyVấnLịchSửGiaoDịch(_accountController.KiểmTraTàiKhoản().AccountNumber);
                         break;
                     case 9:
-                        _accountController.ThayĐổiThôngTinCáNhân(_accountController.KiểmTraTàiKhoản());
+                        _accountController.ThayĐổiThôngTinAccount("ThôngTinNgườiDùng","UserName",_accountController.KiểmTraTàiKhoản());
                         break;
                     case 10:
-                        _accountController.ThayĐổiThôngTinMậtKhẩu(_accountController.KiểmTraTàiKhoản());
+                        _accountController.ThayĐổiThôngTinAccount("MậtKhẩu","UserName",_accountController.KiểmTraTàiKhoản());
                         break;
                     case 11:
                         break;

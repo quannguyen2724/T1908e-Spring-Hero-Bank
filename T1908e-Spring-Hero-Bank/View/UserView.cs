@@ -39,10 +39,10 @@ namespace T1908e_Spring_Hero_Bank.View
                         _transactionController.TruyVấnSốDư(account);
                         break;
                     case 5:
-                        _accountController.ThayĐổiThôngTinCáNhân(account);
+                        _accountController.ThayĐổiThôngTinAccount("ThôngTinNgườiDùng","UserName",account);
                         break;
                     case 6:
-                        _accountController.ThayĐổiThôngTinMậtKhẩu(account);
+                        _accountController.ThayĐổiThôngTinAccount("MậtKhẩu","UserName",account);
                         break;
                     case 7:
                         _transactionController.TruyVấnLịchSửGiaoDịch(account.AccountNumber);

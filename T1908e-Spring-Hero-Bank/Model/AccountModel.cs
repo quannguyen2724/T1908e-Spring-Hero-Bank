@@ -150,5 +150,28 @@ namespace T1908e_Spring_Hero_Bank.Model
                 return false;
             }
         }
+
+        public void UpdateAccount(String c,Account account)
+        {
+            DateTime dateTime = DateTime.Now;
+            var cnn = ConnectionHelper.GetConnection();
+            cnn.Open();
+            var strUsername = c.Equals("Username") ? $" WHERE Username = '{account.Username}'" : (!(account.Username is null) ? $" Username = '{account.Username}', " : "");
+            var strAccountNumber = c.Equals("AccountNumber")?$" WHERE AccountNumber = '{account.AccountNumber}'":(!(account.AccountNumber is null) ? $" AccountNumber = '{account.AccountNumber}', " : "");
+            var strPasswordHash = !(account.PasswordHash is null) ? $" PasswordHash = '{account.PasswordHash}', " : "";
+            var strSalt = !(account.Salt is null) ? $" Salt = '{account.Salt}', " : "";
+            var strFullname = !(account.Fullname is null) ? $" Fullname = '{account.Fullname}', " : "";
+            var strPhone = !(account.Phone is null) ? $" Phone = '{account.Phone}', " : "";
+            var strEmail = !(account.Email is null) ? $" Email = '{account.Email}', " : "";
+            var strBalance = !(account.Balance.GetHashCode()<1) ? $" Balance = '{account.Balance}', " : "";
+            var strStatus = !(account.Status.GetHashCode()<1) ? $" Status = '{(int)account.Status}', " : "";
+            var strUpdateDate =  $" UpdateDate = '{dateTime.ToString("yyyy-MM-dd HH:mm:ss")}'";
+            var str = strAccountNumber+strPasswordHash+strSalt+strFullname+strPhone+strEmail+strBalance+strStatus+strUpdateDate+strUsername;
+            
+            var cmd = new MySqlCommand($"select * from shbaccount where accountNumber = '{dateTime}'", cnn);
+            
+            var reader = cmd.ExecuteReader();
+            cnn.Close();
+        }
     }
 }
