@@ -20,11 +20,11 @@ namespace T1908e_Spring_Hero_Bank.View
                 switch (choice)
                 {
                     case 1:
-                        _accountController.Register();
+                        _accountController.ĐăngKý();
                         break;
                     case 2:
                         IMenuGenerator iMenuGenerator;
-                        var acc = _accountController.Login();
+                        var acc = _accountController.ĐăngNhập(_accountController.KiểmTraTàiKhoản());
                         if (!(acc is null))
                         {
                             if ((int) acc.Role==1)

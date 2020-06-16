@@ -11,7 +11,7 @@ namespace T1908e_Spring_Hero_Bank.View
             {
                 Console.Clear();
                 Console.WriteLine("—— Ngân hàng Spring Hero Bank ——");
-                Console.WriteLine("Chào mừng Admin “Xuân Hùng” quay trở lại. Vui lòng chọn thao");
+                Console.WriteLine($"Chào mừng Admin {account.Fullname} quay trở lại. Vui lòng chọn thao tác:");
                 Console.WriteLine("1. Danh sách người dùng.");
                 Console.WriteLine("2. Danh sách lịch sử giao dịch.");
                 Console.WriteLine("3. Tìm kiếm người dùng theo tên.");
@@ -22,18 +22,48 @@ namespace T1908e_Spring_Hero_Bank.View
                 Console.WriteLine("8. Tìm kiếm lịch sử giao dịch theo số tài khoản.");
                 Console.WriteLine("9. Thay đổi thông tin tài khoản.");
                 Console.WriteLine("10. Thay đổi thông tin mật khẩu.");
-                Console.WriteLine("11. Thoát.");
+                Console.WriteLine("11. Đăng xuất.");
+                Console.WriteLine("12. Thoát.");
                 Console.WriteLine("--------------------------------");
-                Console.WriteLine("Nhập lựa chọn của bạn (1, 2, 3): ");
-                var choice =  _inputHelper.ValidateInt(1,11);
+                Console.WriteLine("Nhập lựa chọn của bạn (1-12): ");
+                var choice =  _inputHelper.ValidateInt(1,12);
                 switch (choice)
                 {
                     case 1:
+                        _accountController.DanhSáchNgườiDùng();
                         break;
                     case 2:
+                        _transactionController.TruyVấnLịchSửGiaoDịch(null);
                         break;
                     case 3:
+                        _accountController.TìmKiếmNgườiDùng("FullName");
                         break;
+                    case 4:
+                        _accountController.TìmKiếmNgườiDùng("AccountNumber");
+                        break;
+                    case 5:
+                        _accountController.TìmKiếmNgườiDùng("Phone");
+                        break;
+                    case 6:
+                        _accountController.ĐăngKý();
+                        break;
+                    case 7:
+                        _accountController.KíchHoạtTàiKhoản(_accountController.KiểmTraTàiKhoản());
+                        break;
+                    case 8:
+                        _transactionController.TruyVấnLịchSửGiaoDịch(_accountController.KiểmTraTàiKhoản().AccountNumber);
+                        break;
+                    case 9:
+                        _accountController.ThayĐổiThôngTinCáNhân(_accountController.KiểmTraTàiKhoản());
+                        break;
+                    case 10:
+                        _accountController.ThayĐổiThôngTinMậtKhẩu(_accountController.KiểmTraTàiKhoản());
+                        break;
+                    case 11:
+                        break;
+                    case 12:
+                        Console.WriteLine("Googbye");
+                        return;
                 }
                 Console.ReadLine();
                 if (choice == 11)
