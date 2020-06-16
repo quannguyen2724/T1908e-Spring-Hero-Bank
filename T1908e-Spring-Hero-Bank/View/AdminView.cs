@@ -45,7 +45,7 @@ namespace T1908e_Spring_Hero_Bank.View
                         _accountController.TìmKiếmNgườiDùng("Phone");
                         break;
                     case 6:
-                        _accountController.ĐăngKý();
+                        _accountController.ĐăngKý(_accountController.KiểmTraTàiKhoản());
                         break;
                     case 7:
                         _accountController.KíchHoạtTàiKhoản(_accountController.KiểmTraTàiKhoản());

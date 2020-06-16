@@ -20,7 +20,7 @@ namespace T1908e_Spring_Hero_Bank.View
                 switch (choice)
                 {
                     case 1:
-                        _accountController.ĐăngKý();
+                        _accountController.ĐăngKý(_accountController.KiểmTraTàiKhoản());
                         break;
                     case 2:
                         IMenuGenerator iMenuGenerator;

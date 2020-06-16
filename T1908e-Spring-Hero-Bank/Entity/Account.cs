@@ -1,4 +1,5 @@
-﻿using Org.BouncyCastle.Asn1.X509;
+﻿using System;
+using Org.BouncyCastle.Asn1.X509;
 
 namespace T1908e_Spring_Hero_Bank.Entity
 {
@@ -14,21 +15,24 @@ namespace T1908e_Spring_Hero_Bank.Entity
         public string Fullname { get; set; }
         public Role Role { get; set; }
         public AccountStatus Status { get; set; }
+        public DateTime CreateDate { get; set; }
+        public DateTime UpdateDate { get; set; }
 
         public override string ToString()
         {
-            return "--------------------" + "\n" + 
-                   "Account Number: " + AccountNumber + "\n" + 
-                   "Balance: " + Balance + "\n" + 
-                   "Username: " + Username + "\n" + 
-                   "PasswordHash: " + PasswordHash + "\n" + 
-                   "Salt: " + Salt + "\n" + 
-                   "Email: " + Email + "\n" + 
-                   "Phone: " + Phone + "\n" + 
-                   "Full Name: " + Fullname + "\n" + 
-                   "Role: " + Role + "\n" + 
-                   "Status: " + Status + "\n" + 
-                   "--------------------";
+            return $"{AccountNumber} | {Balance} | {Username} | {Fullname} | {Email} | {Phone} | {Role} | {Status}";
+            // "--------------------" + "\n" + 
+            //    "Account Number: " + AccountNumber + "\n" + 
+            //    "Balance: " + Balance + "\n" + 
+            //    "Username: " + Username + "\n" + 
+            //    "PasswordHash: " + PasswordHash + "\n" + 
+            //    "Salt: " + Salt + "\n" + 
+            //    "Email: " + Email + "\n" + 
+            //    "Phone: " + Phone + "\n" + 
+            //    "Full Name: " + Fullname + "\n" + 
+            //    "Role: " + Role + "\n" + 
+            //    "Status: " + Status + "\n" + 
+            //    "--------------------";
         }
     }
 

@@ -28,7 +28,7 @@ namespace T1908e_Spring_Hero_Bank.Helper
             int number;
             while (true)
             {
-                if (!Int32.TryParse(Console.ReadLine(), out number) && number >= min && number <= max)
+                if (Int32.TryParse(Console.ReadLine(), out number) && number >= min && number <= max)
                 {
                     return number;
                 }
