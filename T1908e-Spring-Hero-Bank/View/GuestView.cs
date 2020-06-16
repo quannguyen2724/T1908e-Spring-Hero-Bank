@@ -1,14 +1,11 @@
-﻿using System;
-using T1908e_Spring_Hero_Bank.Controller;
-using T1908e_Spring_Hero_Bank.Helper;
+using System;
+using T1908e_Spring_Hero_Bank.Entity;
 
 namespace T1908e_Spring_Hero_Bank.View
 {
-    public class MainView
+    public class GuestView : IMenuGenerator
     {
-        private static  AccountController _accountController = new AccountController();
-        private static  InputHelper _inputHelper = new InputHelper();
-        public static void GenerateMenu()
+        public override void GenerateMenu(Account? account)
         {
             while (true)
             {
@@ -19,20 +16,26 @@ namespace T1908e_Spring_Hero_Bank.View
                 Console.WriteLine("3. Thoát.");
                 Console.WriteLine("--------------------------------");
                 Console.WriteLine("Nhập lựa chọn của bạn (1, 2, 3): ");
-                var choice =  int.Parse(Console.ReadLine());
+                var choice =  _inputHelper.ValidateInt(1,3);
                 switch (choice)
                 {
                     case 1:
                         _accountController.Register();
                         break;
                     case 2:
-                        if ((int) _accountController.Login().Role==1)
+                        IMenuGenerator iMenuGenerator;
+                        var acc = _accountController.Login();
+                        if (!(acc is null))
                         {
-                            AdminMenu();
-                        }
-                        else
-                        {
-                            UserMenu();
+                            if ((int) acc.Role==1)
+                            {
+                                iMenuGenerator = new AdminView();
+                            }
+                            else
+                            {
+                                iMenuGenerator = new UserView();
+                            }
+                            iMenuGenerator.GenerateMenu(acc);
                         }
                         break;
                     case 3:
@@ -47,14 +50,6 @@ namespace T1908e_Spring_Hero_Bank.View
             }
         }
 
-        private static void AdminMenu()
-        {
-            throw new NotImplementedException();
-        }
-
-        private static void UserMenu()
-        {
-            throw new NotImplementedException();
-        }
+        public bool Account { get; set; }
     }
 }
