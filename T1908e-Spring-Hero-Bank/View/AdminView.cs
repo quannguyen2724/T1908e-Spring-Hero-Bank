@@ -30,19 +30,19 @@ namespace T1908e_Spring_Hero_Bank.View
                 switch (choice)
                 {
                     case 1:
-                        _accountController.DanhSáchNgườiDùng();
+                        _accountController.DanhSáchNgườiDùng(null);
                         break;
                     case 2:
                         _transactionController.TruyVấnLịchSửGiaoDịch(null);
                         break;
                     case 3:
-                        _accountController.TìmKiếmNgườiDùng("FullName");
+                        _accountController.DanhSáchNgườiDùng(_accountController.TìmKiếmNgườiDùng("FullName",_inputHelper.ValidateString("Enter FullName")));
                         break;
                     case 4:
-                        _accountController.TìmKiếmNgườiDùng("AccountNumber");
+                        _accountController.DanhSáchNgườiDùng(_accountController.TìmKiếmNgườiDùng("AccountNumber",_inputHelper.ValidateString("Enter AccountNumber")));
                         break;
                     case 5:
-                        _accountController.TìmKiếmNgườiDùng("Phone");
+                        _accountController.DanhSáchNgườiDùng(_accountController.TìmKiếmNgườiDùng("Phone",_inputHelper.ValidateString("Enter Phone")));
                         break;
                     case 6:
                         _accountController.ĐăngKý(_accountController.KiểmTraTàiKhoản());

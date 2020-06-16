@@ -89,12 +89,12 @@ namespace T1908e_Spring_Hero_Bank.Model
             return _account;
         }
 
-        public List<Account> GetListAccount(string str, string str1)
+        public List<Account> GetListAccount(string? str, string? str1)
         {
             List<Account> list = new List<Account>();
             var cnn = ConnectionHelper.GetConnection();
             cnn.Open();
-            MySqlCommand cmd = new MySqlCommand("");
+            MySqlCommand cmd;
             switch (str)
             {
                 case null:
@@ -103,10 +103,13 @@ namespace T1908e_Spring_Hero_Bank.Model
                 case "UserName":
                     cmd = new MySqlCommand($"select * from Account where {str} = '{str1}'", cnn);
                     break;
+                default:
+                    cmd= new MySqlCommand($"select * from Account where {str} LIKE '%{str1}%'", cnn);
+                    break;
             }
 
             var reader = cmd.ExecuteReader();
-            if (reader.Read())
+            while (reader.Read())
             {
                 list.Add(new Account()
                 {
@@ -135,7 +138,7 @@ namespace T1908e_Spring_Hero_Bank.Model
                 cnn.Open();
                 // Console.WriteLine($"INSERT INTO Account( Username, PasswordHash, Salt, FullName, Phone, Email, Role, Status, CreateDate) VALUES ('{account.Username}','{account.PasswordHash}', '{account.Salt}','{account.Fullname}','{account.Phone}','{account.Email}',{(int)account.Role},{(int)account.Status},'{account.CreateDate.ToString("yyyy-MM-dd HH:mm:ss")}'");
                 MySqlCommand cmd = new MySqlCommand(
-                    $"INSERT INTO Account( Username, PasswordHash, Salt, FullName, Phone, Email, Role, Status, CreateDate) VALUES ('{account.Username}','{account.PasswordHash}','{account.Salt}','{account.Fullname}','{account.Phone}','{account.Email}','{(int) account.Role}','{(int) account.Status}','{account.CreateDate.ToString("yyyy-MM-dd HH:mm:ss")}')",
+                    $"INSERT INTO Account( Username, PasswordHash, Salt, FullName, Phone, Email, Role, Status, CreateDate, Balance) VALUES ('{account.Username}','{account.PasswordHash}','{account.Salt}','{account.Fullname}','{account.Phone}','{account.Email}','{(int) account.Role}','{(int) account.Status}','{account.CreateDate.ToString("yyyy-MM-dd HH:mm:ss")}','{account.Balance}')",
                     cnn);
                 cmd.ExecuteReader();
                 cnn.Close();

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading;
 using MySql.Data.MySqlClient;
 using T1908e_Spring_Hero_Bank.Entity;
@@ -13,6 +14,7 @@ namespace T1908e_Spring_Hero_Bank.Controller
         private PasswordHelper _passwordHelper = new PasswordHelper();
         private AccountModel _accountModel = new AccountModel();
         private DateTime _time = DateTime.Now;
+
         public void ĐăngKý(Account acc)
         {
             if (!(acc.AccountNumber is null))
@@ -25,7 +27,7 @@ namespace T1908e_Spring_Hero_Bank.Controller
                 Account account = new Account()
                 {
                     Username = acc.Username,
-                    PasswordHash = _passwordHelper.MD5Hash(_inputHelper.ValidateString("Enter PassWord: ")+salt),
+                    PasswordHash = _passwordHelper.MD5Hash(_inputHelper.ValidateString("Enter PassWord: ") + salt),
                     Salt = salt,
                     Fullname = _inputHelper.ValidateString("Enter FullName: "),
                     Phone = _inputHelper.ValidateString("Enter Phone: "),
@@ -33,6 +35,7 @@ namespace T1908e_Spring_Hero_Bank.Controller
                     Role = (Role) 0,
                     Status = (AccountStatus) 0,
                     CreateDate = _time,
+                    Balance = 0
                 };
                 if (_accountModel.CreateAccount(account))
                 {
@@ -48,7 +51,8 @@ namespace T1908e_Spring_Hero_Bank.Controller
         public Account KiểmTraTàiKhoản()
         {
             var str = _inputHelper.ValidateString("Enter UserName: ");
-            if (_accountModel.GetListAccount("UserName", str) is null)
+            var list = _accountModel.GetListAccount("UserName", str);
+            if (list is null)
             {
                 Account account = new Account()
                 {
@@ -58,13 +62,15 @@ namespace T1908e_Spring_Hero_Bank.Controller
             }
             else
             {
-                return _accountModel.GetListAccount("UserName", str)[0];
+                return list[0];
             }
         }
 
         public Account? ĐăngNhập(Account acc)
         {
-            if ((acc.AccountNumber is null)||!acc.PasswordHash.Equals(_passwordHelper.MD5Hash(_inputHelper.ValidateString("Enter PassWord: ") + acc.Salt)))
+            if ((acc.AccountNumber is null) ||
+                !acc.PasswordHash.Equals(
+                    _passwordHelper.MD5Hash(_inputHelper.ValidateString("Enter PassWord: ") + acc.Salt)))
             {
                 Console.WriteLine("Thông tin không hợp lệ!!!");
                 return null;
@@ -83,26 +89,36 @@ namespace T1908e_Spring_Hero_Bank.Controller
             }
         }
 
-        public void DanhSáchNgườiDùng()
+        public void DanhSáchNgườiDùng(List<Account>? l)
         {
-            if (_accountModel.GetListAccount(null, null) is null)
+            List<Account> list;
+            if (l is null)
             {
-                Console.WriteLine("Chưa có tài khoản đăng ký!!");
+                list = _accountModel.GetListAccount(null, null);
+            }
+            else
+            {
+                list = l;
+
+            }
+            if (list.Count<1)
+            {
+                Console.WriteLine("Không tồn tại!!");
             }
             else
             {
                 Console.WriteLine("AccountNumber | Balance | Username | Fullname | Email | Phone | Role | Status");
-                foreach (var acc in _accountModel.GetListAccount(null, null))
+                var s = "";
+                foreach (var acc in list)
                 {
                     Console.WriteLine(acc.ToString());
                 }
             }
-            
         }
 
-        public void TìmKiếmNgườiDùng(string key)
+        public List<Account> TìmKiếmNgườiDùng(string key, string str)
         {
-            throw new NotImplementedException();
+            return _accountModel.GetListAccount(key, str);
         }
 
         public void ThayĐổiThôngTinCáNhân(Account acc)
