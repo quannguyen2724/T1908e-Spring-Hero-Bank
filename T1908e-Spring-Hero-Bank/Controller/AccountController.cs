@@ -119,6 +119,11 @@ namespace T1908e_Spring_Hero_Bank.Controller
                     {
                         Console.WriteLine(acc.ToString());
                     }
+
+                    if (sum == 1)
+                    {
+                        break;
+                    }
                     Console.WriteLine($"Trang {j}/{sum}");
                     Console.WriteLine("Nhập '< >' để chuyển trang, 'Backspace' Để quay lại!!!");
                     string key = Console.ReadKey().Key.ToString();
@@ -152,6 +157,7 @@ namespace T1908e_Spring_Hero_Bank.Controller
 
                     if (key.Equals("Backspace"))
                     {
+                        Console.WriteLine("Enter để xác nhận!!!");
                         break;
                     }
                 }
