@@ -52,7 +52,7 @@ namespace T1908e_Spring_Hero_Bank.Controller
         {
             var str = _inputHelper.ValidateString("Enter UserName: ");
             var list = _accountModel.GetListAccount("UserName", str);
-            if (list.Count<1)
+            if (list.Count < 1)
             {
                 Account account = new Account()
                 {
@@ -99,19 +99,61 @@ namespace T1908e_Spring_Hero_Bank.Controller
             else
             {
                 list = l;
-
             }
-            if (list.Count<1)
+
+            if (list.Count < 1)
             {
                 Console.WriteLine("Không tồn tại!!");
             }
             else
             {
-                Console.WriteLine("AccountNumber | Balance | Username | Fullname | Email | Phone | Role | Status");
-                var s = "";
-                foreach (var acc in list)
+                var i = 0;
+                while (true)
                 {
-                    Console.WriteLine(acc.ToString());
+                    Console.Clear();
+                    var j = i + 1;
+                    int sum = list.Count % 5 > 0 ? ((list.Count / 5) + 1) : list.Count;
+                    Console.WriteLine("AccountNumber | Balance | Username | Fullname | Email | Phone | Role | Status");
+                    var s = "";
+                    foreach (var acc in list.GetRange(i*5, (j==sum)?(list.Count%5):5))
+                    {
+                        Console.WriteLine(acc.ToString());
+                    }
+                    Console.WriteLine($"Trang {j}/{sum}");
+                    Console.WriteLine("Nhập '< >' để chuyển trang, 'Backspace' Để quay lại!!!");
+                    string key = Console.ReadKey().Key.ToString();
+                    switch (key)
+                    {
+                        case "LeftArrow":
+                            if (i == 0)
+                            {
+                                i = sum - 1;
+                            }
+                            else
+                            {
+                                i--;
+                            }
+
+                            break;
+                        case "RightArrow":
+                            if (i == sum - 1)
+                            {
+                                i = 0;
+                            }
+                            else
+                            {
+                                i++;
+                            }
+
+                            break;
+                        case "Backspace":
+                            break;
+                    }
+
+                    if (key.Equals("Backspace"))
+                    {
+                        break;
+                    }
                 }
             }
         }
@@ -121,7 +163,7 @@ namespace T1908e_Spring_Hero_Bank.Controller
             return _accountModel.GetListAccount(key, str);
         }
 
-        public void ThayĐổiThôngTinAccount(string str,string str1,Account acc)
+        public void ThayĐổiThôngTinAccount(string str, string str1, Account acc)
         {
             if (acc is null)
             {
@@ -139,19 +181,19 @@ namespace T1908e_Spring_Hero_Bank.Controller
                 {
                     case "ThôngTinNgườiDùng":
                         account = new Account()
-                            {
-                                Username = acc.Username,
-                                Fullname = _inputHelper.ValidateString("Enter new FullName: "),
-                                Phone = _inputHelper.ValidateString("Enter new Phone: "),
-                                Email = _inputHelper.ValidateString("Enter new Email: "),
-                            };
-                     break;
+                        {
+                            Username = acc.Username,
+                            Fullname = _inputHelper.ValidateString("Enter new FullName: "),
+                            Phone = _inputHelper.ValidateString("Enter new Phone: "),
+                            Email = _inputHelper.ValidateString("Enter new Email: "),
+                        };
+                        break;
                     case "KíchHoạtTàiKhoản":
                         Console.WriteLine("Enter Status (-1, 0, 1):");
                         account = new Account()
                         {
                             Username = acc.Username,
-                            Status = (AccountStatus)_inputHelper.ValidateInt(-1,1),
+                            Status = (AccountStatus) _inputHelper.ValidateInt(-1, 1),
                         };
                         break;
                     case "MậtKhẩu":
@@ -159,13 +201,14 @@ namespace T1908e_Spring_Hero_Bank.Controller
                         account = new Account()
                         {
                             Username = acc.Username,
-                            PasswordHash = _passwordHelper.MD5Hash(_inputHelper.ValidateString("Enter PassWord: ") + salt),
+                            PasswordHash =
+                                _passwordHelper.MD5Hash(_inputHelper.ValidateString("Enter PassWord: ") + salt),
                             Salt = salt
                         };
                         break;
                 }
-                
-                _accountModel.UpdateAccount(str1,account);
+
+                _accountModel.UpdateAccount(str1, account);
             }
         }
 
