@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using T1908e_Spring_Hero_Bank.Controller;
 using T1908e_Spring_Hero_Bank.Entity;
 using T1908e_Spring_Hero_Bank.Helper;
@@ -13,10 +14,8 @@ namespace T1908e_Spring_Hero_Bank
         private static AccountModel _accountModel = new AccountModel();
         private static PasswordHelper _passwordHelper = new PasswordHelper();
         private static AccountController _accountController = new AccountController();
-
         public static void Main(string[] args)
         {
-            // _accountController.DanhSáchNgườiDùng(null);
             _iMenuGenerator.GenerateMenu(null);
         }
     }

@@ -8,7 +8,6 @@ namespace T1908e_Spring_Hero_Bank.Model
 {
     public class AccountModel
     {
-        private Account _account;
         public List<Account> GetListAccount(string? str, string? str1)
         {
             List<Account> list = new List<Account>();

@@ -217,15 +217,6 @@ namespace T1908e_Spring_Hero_Bank.Controller
                 _accountModel.UpdateAccount(str1, account);
             }
         }
-
-        public void ThayĐổiThôngTinMậtKhẩu(Account acc)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void KíchHoạtTàiKhoản(Account acc)
-        {
-            throw new NotImplementedException();
-        }
+        
     }
 }
