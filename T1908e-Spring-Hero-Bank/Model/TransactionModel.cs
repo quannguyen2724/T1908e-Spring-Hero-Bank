@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using MySql.Data.MySqlClient;
 using T1908e_Spring_Hero_Bank.Entity;
 using T1908e_Spring_Hero_Bank.Helper;
@@ -43,6 +44,42 @@ namespace T1908e_Spring_Hero_Bank.Model
                 Console.WriteLine("Update Fail!!!");
             }
             cnn.Close();
+        }
+
+        public List<Transaction> GetListTransaction(string? str)
+        {
+            List<Transaction> list = new List<Transaction>();
+            var cnn = ConnectionHelper.GetConnection();
+            cnn.Open();
+            MySqlCommand cmd;
+            if (str is null)
+            {
+                cmd = new MySqlCommand($"select * from Transaction", cnn);
+            }
+            else
+            {
+                cmd= new MySqlCommand($"select * from Transaction where SenderAccountNumber = '{str}' OR ReceiverAccountNumber = '{str}'", cnn);
+            }
+
+            var reader = cmd.ExecuteReader();
+            while (reader.Read())
+            {
+                list.Add(new Transaction()
+                {
+                    TransactionCode = reader.GetString("TransactionCode"),
+                    SenderAccountNumber = reader.GetString("SenderAccountNumber"),
+                    ReceiverAccountNumber = reader.GetString("ReceiverAccountNumber"),
+                    Message = reader.GetString("Message"),
+                    Amount = reader.GetInt32("Amount"),
+                    Fee = reader.GetInt32("Email"),
+                    Type = (TransactionType)reader.GetInt32("Type"),
+                    Status = (TransactionStatus)reader.GetInt32("Status"),
+                    CreatedAt = reader.GetDateTime("CreatedAt"),
+                });
+            }
+            reader.Close();
+            cnn.Close();
+            return list;
         }
     }
 }

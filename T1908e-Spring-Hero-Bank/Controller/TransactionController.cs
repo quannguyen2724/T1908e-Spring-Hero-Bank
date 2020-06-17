@@ -72,9 +72,15 @@ namespace T1908e_Spring_Hero_Bank.Controller
         {
             Account acc2 = new Account();
             List<Account> list = new List<Account>();
+            Console.WriteLine("Bạn muốn chuyển tiền theo: ");
+            Console.WriteLine("1. Số tài khoản ");
+            Console.WriteLine("2. Tài khoản ");
+            Console.WriteLine("Chọn: ");
+            var choice = _inputHelper.ValidateInt(1, 2);
             while (true)
             {
-                list = _accountModel.GetListAccount("AccountNumber",_inputHelper.ValidateString("Nhập số tài khoản muốn chuyển khoản:"));
+                list = _accountModel.GetListAccount(choice == 1 ? "AccountNumber" : "Username",
+                    _inputHelper.ValidateString(choice == 1 ? "Enter AccountNumber" : "Enter Username"));
                 if (list.Count > 0)
                 {
                     acc2 = list[0];
@@ -87,6 +93,7 @@ namespace T1908e_Spring_Hero_Bank.Controller
                 }
 
             }
+
             Console.WriteLine("Thông tin tài khoản nhận tiền: ");
             Console.WriteLine("AccountNumber | Fullname");
             Console.WriteLine($"{acc2.AccountNumber} | {acc2.Fullname}");
@@ -113,7 +120,7 @@ namespace T1908e_Spring_Hero_Bank.Controller
         }
         public void TruyVấnSốDư(Account? account)
         {
-            throw new System.NotImplementedException();
+            _transactionModel.GetListTransaction( account.AccountNumber);
         }
     }
 }
