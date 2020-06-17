@@ -22,6 +22,9 @@ namespace T1908e_Spring_Hero_Bank.Model
                 case "UserName":
                     cmd = new MySqlCommand($"select * from Account where {str} = '{str1}'", cnn);
                     break;
+                case "AccountNumber":
+                    cmd = new MySqlCommand($"select * from Account where {str} = '{str1}'", cnn);
+                    break;
                 default:
                     cmd= new MySqlCommand($"select * from Account where {str} LIKE '%{str1}%'", cnn);
                     break;
@@ -44,7 +47,7 @@ namespace T1908e_Spring_Hero_Bank.Model
                     Status = (AccountStatus) reader.GetInt32("Status")
                 });
             }
-
+            reader.Close();
             cnn.Close();
             return list;
         }
@@ -58,7 +61,8 @@ namespace T1908e_Spring_Hero_Bank.Model
                 MySqlCommand cmd = new MySqlCommand(
                     $"INSERT INTO Account( Username, PasswordHash, Salt, FullName, Phone, Email, Role, Status, CreateDate, Balance) VALUES ('{account.Username}','{account.PasswordHash}','{account.Salt}','{account.Fullname}','{account.Phone}','{account.Email}','{(int) account.Role}','{(int) account.Status}','{account.CreateDate.ToString("yyyy-MM-dd HH:mm:ss")}','{account.Balance}')",
                     cnn);
-                cmd.ExecuteReader();
+                MySqlDataReader mySqlDataReader= cmd.ExecuteReader();
+                mySqlDataReader.Close();
                 cnn.Close();
                 return true;
             }
@@ -88,7 +92,8 @@ namespace T1908e_Spring_Hero_Bank.Model
                 var strUpdateDate =  $" UpdateDate = '{dateTime.ToString("yyyy-MM-dd HH:mm:ss")}'";
                 var str = strAccountNumber+strPasswordHash+strSalt+strFullname+strPhone+strEmail+strBalance+strStatus+strUpdateDate+strUsername;
                 var cmd = new MySqlCommand($"UPDATE Account  SET {str}", cnn);
-                cmd.ExecuteReader();
+                MySqlDataReader mySqlDataReader= cmd.ExecuteReader();
+                mySqlDataReader.Close();
                 Console.WriteLine("Uppdate success!!!");
                 cnn.Close();
             }

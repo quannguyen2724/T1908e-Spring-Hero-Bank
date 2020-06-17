@@ -15,11 +15,24 @@ namespace T1908e_Spring_Hero_Bank.Model
             try
             {
                 var cmd1 = new MySqlCommand($"UPDATE Account  SET Balance = '{acc1.Balance}', UpdateDate = '{acc1.UpdateDate.ToString("yyyy-MM-dd HH:mm:ss")}' WHERE AccountNumber = '{acc1.AccountNumber}'", cnn);
-                var cmd2 = new MySqlCommand($"INSERT INTO Transaction (TransactionCode, SenderAccountNumber, Message, Amount, Fee, Type, Status, CreatedAt) VALUES ('{transaction.TransactionCode}', '{transaction.SenderAccountNumber}', '{transaction.Message}', '{transaction.Amount}', '{transaction.Fee}', '{(int)transaction.Type}', '{(int)transaction.Status}', '{transaction.CreatedAt.ToString("yyyy-MM-dd HH:mm:ss")}')",cnn);
                 MySqlDataReader mySqlDataReader1 = cmd1.ExecuteReader();
                 mySqlDataReader1.Close();
-                MySqlDataReader mySqlDataReader2 = cmd2.ExecuteReader();
-                mySqlDataReader2.Close();
+                if (acc2 is null)
+                {
+                    var cmd2 = new MySqlCommand($"INSERT INTO Transaction (TransactionCode, SenderAccountNumber, Message, Amount, Fee, Type, Status, CreatedAt) VALUES ('{transaction.TransactionCode}', '{transaction.SenderAccountNumber}', '{transaction.Message}', '{transaction.Amount}', '{transaction.Fee}', '{(int)transaction.Type}', '{(int)transaction.Status}', '{transaction.CreatedAt.ToString("yyyy-MM-dd HH:mm:ss")}')",cnn);
+                    MySqlDataReader mySqlDataReader2 = cmd2.ExecuteReader();
+                    mySqlDataReader2.Close();
+                }
+                else
+                {
+                    var cmd2 = new MySqlCommand($"INSERT INTO Transaction (TransactionCode, SenderAccountNumber, ReceiverAccountNumber, Message, Amount, Fee, Type, Status, CreatedAt) VALUES ('{transaction.TransactionCode}', '{transaction.SenderAccountNumber}', '{transaction.ReceiverAccountNumber}', '{transaction.Message}', '{transaction.Amount}', '{transaction.Fee}', '{(int)transaction.Type}', '{(int)transaction.Status}', '{transaction.CreatedAt.ToString("yyyy-MM-dd HH:mm:ss")}')",cnn);
+                    MySqlDataReader mySqlDataReader2 = cmd2.ExecuteReader();
+                    mySqlDataReader2.Close();
+                    var cmd3 = new MySqlCommand($"UPDATE Account  SET Balance = '{acc2.Balance}', UpdateDate = '{acc2.UpdateDate.ToString("yyyy-MM-dd HH:mm:ss")}' WHERE AccountNumber = '{acc2.AccountNumber}'", cnn);
+                    MySqlDataReader mySqlDataReader3 = cmd3.ExecuteReader();
+                    mySqlDataReader3.Close();
+                }
+                
                 Console.WriteLine("Uppdate success!!!");
                 tran.Commit();
             }
