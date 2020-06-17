@@ -48,16 +48,16 @@ namespace T1908e_Spring_Hero_Bank.View
                         _accountController.ĐăngKý(_accountController.KiểmTraTàiKhoản());
                         break;
                     case 7:
-                        _accountController.ThayĐổiThôngTinAccount("KíchHoạtTàiKhoản","UserName",_accountController.KiểmTraTàiKhoản());
+                        _accountController.ThayĐổiThôngTinAccount("KíchHoạtTàiKhoản","Username",_accountController.KiểmTraTàiKhoản());
                         break;
                     case 8:
                         _transactionController.TruyVấnLịchSửGiaoDịch(_accountController.KiểmTraTàiKhoản().AccountNumber);
                         break;
                     case 9:
-                        _accountController.ThayĐổiThôngTinAccount("ThôngTinNgườiDùng","UserName",_accountController.KiểmTraTàiKhoản());
+                        _accountController.ThayĐổiThôngTinAccount("ThôngTinNgườiDùng","Username",_accountController.KiểmTraTàiKhoản());
                         break;
                     case 10:
-                        _accountController.ThayĐổiThôngTinAccount("MậtKhẩu","UserName",_accountController.KiểmTraTàiKhoản());
+                        _accountController.ThayĐổiThôngTinAccount("MậtKhẩu","Username",_accountController.KiểmTraTàiKhoản());
                         break;
                     case 11:
                         break;
@@ -65,10 +65,13 @@ namespace T1908e_Spring_Hero_Bank.View
                         Console.WriteLine("Googbye");
                         return;
                 }
-                Console.ReadLine();
                 if (choice == 11)
                 {
                     break;
+                }
+                else
+                {
+                    Console.ReadLine();
                 }
             }
         }

@@ -39,10 +39,10 @@ namespace T1908e_Spring_Hero_Bank.View
                         _transactionController.TruyVấnSốDư(account);
                         break;
                     case 5:
-                        _accountController.ThayĐổiThôngTinAccount("ThôngTinNgườiDùng","UserName",account);
+                        _accountController.ThayĐổiThôngTinAccount("ThôngTinNgườiDùng","Username",account);
                         break;
                     case 6:
-                        _accountController.ThayĐổiThôngTinAccount("MậtKhẩu","UserName",account);
+                        _accountController.ThayĐổiThôngTinAccount("MậtKhẩu","Username",account);
                         break;
                     case 7:
                         _transactionController.TruyVấnLịchSửGiaoDịch(account.AccountNumber);
@@ -53,10 +53,13 @@ namespace T1908e_Spring_Hero_Bank.View
                         Console.WriteLine("Goodbye!!!");
                         return;
                 }
-                Console.ReadLine();
                 if (choice == 8)
                 {
                     break;
+                }
+                else
+                {
+                    Console.ReadLine();
                 }
             }
         }

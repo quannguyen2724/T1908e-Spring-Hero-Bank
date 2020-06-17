@@ -9,86 +9,6 @@ namespace T1908e_Spring_Hero_Bank.Model
     public class AccountModel
     {
         private Account _account;
-
-        public Account GetAccountByUsername(string username)
-        {
-            var cnn = ConnectionHelper.GetConnection();
-            cnn.Open();
-            var cmd = new MySqlCommand($"select * from shbaccount where username = '{username}'", cnn);
-            var reader = cmd.ExecuteReader();
-            if (reader.Read())
-            {
-                _account = new Account()
-                {
-                    AccountNumber = reader.GetString("accountNumber"),
-                    Balance = reader.GetDouble("balance"),
-                    Username = reader.GetString("username"),
-                    PasswordHash = reader.GetString("passwordHash"),
-                    Salt = reader.GetString("salt"),
-                    Email = reader.GetString("email"),
-                    Phone = reader.GetString("phone"),
-                    Fullname = reader.GetString("fullname"),
-                    Status = (AccountStatus) reader.GetInt32("status")
-                };
-            }
-
-            cnn.Close();
-            return _account;
-        }
-
-
-        public Account GetAccountByPhone(string phone)
-        {
-            var cnn = ConnectionHelper.GetConnection();
-            cnn.Open();
-            var cmd = new MySqlCommand($"select * from shbaccount where phone = '{phone}'", cnn);
-            var reader = cmd.ExecuteReader();
-            if (reader.Read())
-            {
-                _account = new Account()
-                {
-                    AccountNumber = reader.GetString("accountNumber"),
-                    Balance = reader.GetDouble("balance"),
-                    Username = reader.GetString("username"),
-                    PasswordHash = reader.GetString("passwordHash"),
-                    Salt = reader.GetString("salt"),
-                    Email = reader.GetString("email"),
-                    Phone = reader.GetString("phone"),
-                    Fullname = reader.GetString("fullname"),
-                    Status = (AccountStatus) reader.GetInt32("status")
-                };
-            }
-
-            cnn.Close();
-            return _account;
-        }
-
-        public Account GetAccountByAccountnumber(string accountNumber)
-        {
-            var cnn = ConnectionHelper.GetConnection();
-            cnn.Open();
-            var cmd = new MySqlCommand($"select * from shbaccount where accountNumber = '{accountNumber}'", cnn);
-            var reader = cmd.ExecuteReader();
-            if (reader.Read())
-            {
-                _account = new Account()
-                {
-                    AccountNumber = reader.GetString("accountNumber"),
-                    Balance = reader.GetDouble("balance"),
-                    Username = reader.GetString("username"),
-                    PasswordHash = reader.GetString("passwordHash"),
-                    Salt = reader.GetString("salt"),
-                    Email = reader.GetString("email"),
-                    Phone = reader.GetString("phone"),
-                    Fullname = reader.GetString("fullname"),
-                    Status = (AccountStatus) reader.GetInt32("status")
-                };
-            }
-
-            cnn.Close();
-            return _account;
-        }
-
         public List<Account> GetListAccount(string? str, string? str1)
         {
             List<Account> list = new List<Account>();
@@ -136,7 +56,6 @@ namespace T1908e_Spring_Hero_Bank.Model
             {
                 var cnn = ConnectionHelper.GetConnection();
                 cnn.Open();
-                // Console.WriteLine($"INSERT INTO Account( Username, PasswordHash, Salt, FullName, Phone, Email, Role, Status, CreateDate) VALUES ('{account.Username}','{account.PasswordHash}', '{account.Salt}','{account.Fullname}','{account.Phone}','{account.Email}',{(int)account.Role},{(int)account.Status},'{account.CreateDate.ToString("yyyy-MM-dd HH:mm:ss")}'");
                 MySqlCommand cmd = new MySqlCommand(
                     $"INSERT INTO Account( Username, PasswordHash, Salt, FullName, Phone, Email, Role, Status, CreateDate, Balance) VALUES ('{account.Username}','{account.PasswordHash}','{account.Salt}','{account.Fullname}','{account.Phone}','{account.Email}','{(int) account.Role}','{(int) account.Status}','{account.CreateDate.ToString("yyyy-MM-dd HH:mm:ss")}','{account.Balance}')",
                     cnn);
@@ -153,25 +72,31 @@ namespace T1908e_Spring_Hero_Bank.Model
 
         public void UpdateAccount(String c,Account account)
         {
-            DateTime dateTime = DateTime.Now;
-            var cnn = ConnectionHelper.GetConnection();
-            cnn.Open();
-            var strUsername = c.Equals("Username") ? $" WHERE Username = '{account.Username}'" : (!(account.Username is null) ? $" Username = '{account.Username}', " : "");
-            var strAccountNumber = c.Equals("AccountNumber")?$" WHERE AccountNumber = '{account.AccountNumber}'":(!(account.AccountNumber is null) ? $" AccountNumber = '{account.AccountNumber}', " : "");
-            var strPasswordHash = !(account.PasswordHash is null) ? $" PasswordHash = '{account.PasswordHash}', " : "";
-            var strSalt = !(account.Salt is null) ? $" Salt = '{account.Salt}', " : "";
-            var strFullname = !(account.Fullname is null) ? $" Fullname = '{account.Fullname}', " : "";
-            var strPhone = !(account.Phone is null) ? $" Phone = '{account.Phone}', " : "";
-            var strEmail = !(account.Email is null) ? $" Email = '{account.Email}', " : "";
-            var strBalance = !(account.Balance.GetHashCode()<1) ? $" Balance = '{account.Balance}', " : "";
-            var strStatus = !(account.Status.GetHashCode()<1) ? $" Status = '{(int)account.Status}', " : "";
-            var strUpdateDate =  $" UpdateDate = '{dateTime.ToString("yyyy-MM-dd HH:mm:ss")}'";
-            var str = strAccountNumber+strPasswordHash+strSalt+strFullname+strPhone+strEmail+strBalance+strStatus+strUpdateDate+strUsername;
-            
-            var cmd = new MySqlCommand($"select * from shbaccount where accountNumber = '{dateTime}'", cnn);
-            
-            var reader = cmd.ExecuteReader();
-            cnn.Close();
+            try
+            {
+                DateTime dateTime = DateTime.Now;
+                var cnn = ConnectionHelper.GetConnection();
+                cnn.Open();
+                var strUsername = c.Equals("Username") ? $" WHERE Username = '{account.Username}'" : (!(account.Username is null) ? $" Username = '{account.Username}', " : "");
+                var strAccountNumber = c.Equals("AccountNumber")?$" WHERE AccountNumber = '{account.AccountNumber}'":(!(account.AccountNumber is null) ? $" AccountNumber = '{account.AccountNumber}', " : "");
+                var strPasswordHash = !(account.PasswordHash is null) ? $" PasswordHash = '{account.PasswordHash}', " : "";
+                var strSalt = !(account.Salt is null) ? $" Salt = '{account.Salt}', " : "";
+                var strFullname = !(account.Fullname is null) ? $" Fullname = '{account.Fullname}', " : "";
+                var strPhone = !(account.Phone is null) ? $" Phone = '{account.Phone}', " : "";
+                var strEmail = !(account.Email is null) ? $" Email = '{account.Email}', " : "";
+                var strBalance = !(account.Balance.GetHashCode()<1) ? $" Balance = '{account.Balance}', " : "";
+                var strStatus = !(account.Status.GetHashCode()<1) ? $" Status = '{(int)account.Status}', " : "";
+                var strUpdateDate =  $" UpdateDate = '{dateTime.ToString("yyyy-MM-dd HH:mm:ss")}'";
+                var str = strAccountNumber+strPasswordHash+strSalt+strFullname+strPhone+strEmail+strBalance+strStatus+strUpdateDate+strUsername;
+                var cmd = new MySqlCommand($"UPDATE Account  SET {str}", cnn);
+                cmd.ExecuteReader();
+                Console.WriteLine("Uppdate success!!!");
+                cnn.Close();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Update Fail!!!");
+            }
         }
     }
 }

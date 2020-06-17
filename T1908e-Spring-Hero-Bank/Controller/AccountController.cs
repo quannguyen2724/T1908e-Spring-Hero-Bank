@@ -33,7 +33,7 @@ namespace T1908e_Spring_Hero_Bank.Controller
                     Phone = _inputHelper.ValidateString("Enter Phone: "),
                     Email = _inputHelper.ValidateString("Enter Email: "),
                     Role = (Role) 0,
-                    Status = (AccountStatus) 0,
+                    Status = (AccountStatus) (-1),
                     CreateDate = _time,
                     Balance = 0
                 };
@@ -52,7 +52,7 @@ namespace T1908e_Spring_Hero_Bank.Controller
         {
             var str = _inputHelper.ValidateString("Enter UserName: ");
             var list = _accountModel.GetListAccount("UserName", str);
-            if (list is null)
+            if (list.Count<1)
             {
                 Account account = new Account()
                 {
@@ -147,6 +147,7 @@ namespace T1908e_Spring_Hero_Bank.Controller
                             };
                      break;
                     case "KíchHoạtTàiKhoản":
+                        Console.WriteLine("Enter Status (-1, 0, 1):");
                         account = new Account()
                         {
                             Username = acc.Username,
