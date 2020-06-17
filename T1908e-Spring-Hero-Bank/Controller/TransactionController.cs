@@ -16,7 +16,21 @@ namespace T1908e_Spring_Hero_Bank.Controller
 
         public void TruyVấnLịchSửGiaoDịch(string? accountNumber)
         {
-            throw new System.NotImplementedException();
+            List<Transaction>? list = _transactionModel.GetListTransaction(accountNumber);
+            if (list.Count < 1)
+            {
+                Console.WriteLine("Tài khoản chưa có Lịch sử giao dịch");
+            }
+            else
+            {
+                Console.WriteLine("Lịch sử giao dịch: ");
+                Console.WriteLine("TransactionCode | SenderAccountNumber | ReceiverAccountNumber | Message | Amount | Fee | Type | Status | UpdatedAt");
+                foreach (var t in list)
+                {
+                    Console.WriteLine(t.ToString());
+                }
+            }
+            
         }
 
         public void GửiTiền(Account? account)
@@ -120,7 +134,7 @@ namespace T1908e_Spring_Hero_Bank.Controller
         }
         public void TruyVấnSốDư(Account? account)
         {
-            _transactionModel.GetListTransaction( account.AccountNumber);
+            Console.WriteLine($"Số dư tài khoản của bạn là: {account.Balance} nghìn đồng!");
         }
     }
 }
