@@ -20,7 +20,7 @@ namespace T1908e_Spring_Hero_Bank.Model
                 mySqlDataReader1.Close();
                 if (acc2 is null)
                 {
-                    var cmd2 = new MySqlCommand($"INSERT INTO Transaction (TransactionCode, SenderAccountNumber, Message, Amount, Fee, Type, Status, CreatedAt) VALUES ('{transaction.TransactionCode}', '{transaction.SenderAccountNumber}', '{transaction.Message}', '{transaction.Amount}', '{transaction.Fee}', '{(int)transaction.Type}', '{(int)transaction.Status}', '{transaction.CreatedAt.ToString("yyyy-MM-dd HH:mm:ss")}')",cnn);
+                    var cmd2 = new MySqlCommand($"INSERT INTO Transaction (TransactionCode, SenderAccountNumber, ReceiverAccountNumber, Message, Amount, Fee, Type, Status, CreatedAt) VALUES ('{transaction.TransactionCode}', '{transaction.SenderAccountNumber}', '{transaction.ReceiverAccountNumber}', '{transaction.Message}', '{transaction.Amount}', '{transaction.Fee}', '{(int)transaction.Type}', '{(int)transaction.Status}', '{transaction.CreatedAt.ToString("yyyy-MM-dd HH:mm:ss")}')",cnn);
                     MySqlDataReader mySqlDataReader2 = cmd2.ExecuteReader();
                     mySqlDataReader2.Close();
                 }
@@ -71,7 +71,7 @@ namespace T1908e_Spring_Hero_Bank.Model
                     ReceiverAccountNumber = reader.GetString("ReceiverAccountNumber"),
                     Message = reader.GetString("Message"),
                     Amount = reader.GetInt32("Amount"),
-                    Fee = reader.GetInt32("Email"),
+                    Fee = reader.GetInt32("Fee"),
                     Type = (TransactionType)reader.GetInt32("Type"),
                     Status = (TransactionStatus)reader.GetInt32("Status"),
                     CreatedAt = reader.GetDateTime("CreatedAt"),

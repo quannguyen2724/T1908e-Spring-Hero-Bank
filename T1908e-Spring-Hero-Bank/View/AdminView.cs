@@ -45,19 +45,19 @@ namespace T1908e_Spring_Hero_Bank.View
                         _accountController.DanhSáchNgườiDùng(_accountController.TìmKiếmNgườiDùng("Phone",_inputHelper.ValidateString("Enter Phone")));
                         break;
                     case 6:
-                        _accountController.ĐăngKý(_accountController.KiểmTraTàiKhoản());
+                        _accountController.ĐăngKý(_accountController.KiểmTraTàiKhoản(null));
                         break;
                     case 7:
-                        _accountController.ThayĐổiThôngTinAccount("KíchHoạtTàiKhoản","Username",_accountController.KiểmTraTàiKhoản());
+                        _accountController.ThayĐổiThôngTinAccount("KíchHoạtTàiKhoản","Username",_accountController.KiểmTraTàiKhoản(null));
                         break;
                     case 8:
-                        _transactionController.TruyVấnLịchSửGiaoDịch(_accountController.KiểmTraTàiKhoản().AccountNumber);
+                        _transactionController.TruyVấnLịchSửGiaoDịch(_accountController.KiểmTraTàiKhoản("AccountNumber").AccountNumber);
                         break;
                     case 9:
-                        _accountController.ThayĐổiThôngTinAccount("ThôngTinNgườiDùng","Username",_accountController.KiểmTraTàiKhoản());
+                        _accountController.ThayĐổiThôngTinAccount("ThôngTinNgườiDùng","Username",_accountController.KiểmTraTàiKhoản(null));
                         break;
                     case 10:
-                        _accountController.ThayĐổiThôngTinAccount("MậtKhẩu","Username",_accountController.KiểmTraTàiKhoản());
+                        _accountController.ThayĐổiThôngTinAccount("MậtKhẩu","Username",_accountController.KiểmTraTàiKhoản(null));
                         break;
                     case 11:
                         break;

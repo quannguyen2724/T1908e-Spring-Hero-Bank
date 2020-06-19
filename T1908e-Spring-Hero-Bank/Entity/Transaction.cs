@@ -14,6 +14,10 @@ namespace T1908e_Spring_Hero_Bank.Entity
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
         public TransactionStatus Status { get; set; }
+        public override string ToString()
+        {
+            return $"{TransactionCode} | {SenderAccountNumber} | {ReceiverAccountNumber} | {Message} | {Amount} | {Fee} | {Status} | {Type} | {CreatedAt}";
+        }
     }
     public enum TransactionType //Kiểu giao dịch
     {
@@ -23,4 +27,5 @@ namespace T1908e_Spring_Hero_Bank.Entity
     {
         Pending = 0, Done = 1, Fails = 0 //pending : Việc chưa xong
     }
+    
 }

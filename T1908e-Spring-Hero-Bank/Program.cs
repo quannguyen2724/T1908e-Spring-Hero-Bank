@@ -14,6 +14,8 @@ namespace T1908e_Spring_Hero_Bank
         private static AccountModel _accountModel = new AccountModel();
         private static PasswordHelper _passwordHelper = new PasswordHelper();
         private static AccountController _accountController = new AccountController();
+        private static TransactionModel _transactionModel = new TransactionModel();
+        private static TransactionController _transactionController = new TransactionController();
         public static void Main(string[] args)
         {
             _iMenuGenerator.GenerateMenu(null);

@@ -48,16 +48,41 @@ namespace T1908e_Spring_Hero_Bank.Controller
             }
         }
 
-        public Account KiểmTraTàiKhoản()
+        public Account KiểmTraTàiKhoản(string? t)
         {
-            var str = _inputHelper.ValidateString("Enter UserName: ");
-            var list = _accountModel.GetListAccount("UserName", str);
+            string str;
+            List<Account> list;
+            Account account;
+            if (t is null)
+            {
+                str = _inputHelper.ValidateString("Enter UserName: ");
+                list = _accountModel.GetListAccount("UserName", str);
+                Console.WriteLine("user");
+            }
+            else
+            {
+                Console.WriteLine("number");
+                str = _inputHelper.ValidateString($"Enter {t}: ");
+                list = _accountModel.GetListAccount(t, str);
+            }
+
             if (list.Count < 1)
             {
-                Account account = new Account()
+                if (t is null)
                 {
-                    Username = str
-                };
+                     account = new Account()
+                    {
+                        Username = str
+                    };
+                    
+                }
+                else
+                {
+                     account = new Account()
+                    {
+                        AccountNumber = "Không tồn tại số tài khoản này."
+                    };
+                }
                 return account;
             }
             else
@@ -115,7 +140,7 @@ namespace T1908e_Spring_Hero_Bank.Controller
                     int sum = list.Count % 5 > 0 ? ((list.Count / 5) + 1) : list.Count;
                     Console.WriteLine("AccountNumber | Balance | Username | Fullname | Email | Phone | Role | Status");
                     var s = "";
-                    foreach (var acc in list.GetRange(i*5, (j==sum)?(list.Count%5):5))
+                    foreach (var acc in list.GetRange(i * 5, (j == sum) ? (list.Count % 5) : 5))
                     {
                         Console.WriteLine(acc.ToString());
                     }
@@ -124,6 +149,7 @@ namespace T1908e_Spring_Hero_Bank.Controller
                     {
                         break;
                     }
+
                     Console.WriteLine($"Trang {j}/{sum}");
                     Console.WriteLine("Nhập '< >' để chuyển trang, 'Backspace' Để quay lại!!!");
                     string key = Console.ReadKey().Key.ToString();
@@ -217,6 +243,5 @@ namespace T1908e_Spring_Hero_Bank.Controller
                 _accountModel.UpdateAccount(str1, account);
             }
         }
-        
     }
 }

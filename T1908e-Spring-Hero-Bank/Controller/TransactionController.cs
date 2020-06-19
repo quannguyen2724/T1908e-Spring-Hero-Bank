@@ -16,21 +16,77 @@ namespace T1908e_Spring_Hero_Bank.Controller
 
         public void TruyVấnLịchSửGiaoDịch(string? accountNumber)
         {
-            List<Transaction>? list = _transactionModel.GetListTransaction(accountNumber);
-            if (list.Count < 1)
+            if (!(accountNumber is null ) && accountNumber.Equals("Không tồn tại số tài khoản này."))
             {
-                Console.WriteLine("Tài khoản chưa có Lịch sử giao dịch");
+                Console.WriteLine("Không tồn tại số tài khoản này.");
             }
             else
             {
-                Console.WriteLine("Lịch sử giao dịch: ");
-                Console.WriteLine("TransactionCode | SenderAccountNumber | ReceiverAccountNumber | Message | Amount | Fee | Type | Status | UpdatedAt");
-                foreach (var t in list)
+                List<Transaction>? list = _transactionModel.GetListTransaction(accountNumber);
+                if (list.Count < 1)
                 {
-                    Console.WriteLine(t.ToString());
+                    Console.WriteLine("Tài khoản chưa có Lịch sử giao dịch");
+                }
+                else
+                {
+                    var i = 0;
+                    while (true)
+                    {
+                        Console.Clear();
+                        var j = i + 1;
+                        int sum = list.Count % 5 > 0 ? ((list.Count / 5) + 1) : list.Count;
+                        Console.WriteLine("Lịch sử giao dịch:");
+                        Console.WriteLine("TransactionCode | SenderAccountNumber | ReceiverAccountNumber | Message | Amount | Fee | Type | Status | UpdatedAt");
+                        var s = "";
+                        foreach (var acc in list.GetRange(i * 5, (j == sum) ? (list.Count % 5) : 5))
+                        {
+                            Console.WriteLine(acc.ToString());
+                        }
+                    
+                        if (sum == 1)
+                        {
+                            break;
+                        }
+                    
+                        Console.WriteLine($"Trang {j}/{sum}");
+                        Console.WriteLine("Nhập '< >' để chuyển trang, 'Backspace' Để quay lại!!!");
+                        string key = Console.ReadKey().Key.ToString();
+                        switch (key)
+                        {
+                            case "LeftArrow":
+                                if (i == 0)
+                                {
+                                    i = sum - 1;
+                                }
+                                else
+                                {
+                                    i--;
+                                }
+                    
+                                break;
+                            case "RightArrow":
+                                if (i == sum - 1)
+                                {
+                                    i = 0;
+                                }
+                                else
+                                {
+                                    i++;
+                                }
+                    
+                                break;
+                            case "Backspace":
+                                break;
+                        }
+                    
+                        if (key.Equals("Backspace"))
+                        {
+                            Console.WriteLine("Enter để xác nhận!!!");
+                            break;
+                        }
+                    }
                 }
             }
-            
         }
 
         public void GửiTiền(Account? account)
@@ -45,6 +101,7 @@ namespace T1908e_Spring_Hero_Bank.Controller
             {
                 TransactionCode = Guid.NewGuid().ToString(),
                 SenderAccountNumber = account.AccountNumber,
+                ReceiverAccountNumber = account.AccountNumber,
                 Message = _inputHelper.ValidateString("Nhập lời nhắn: "),
                 Amount = amount,
                 Fee = 0,
@@ -70,6 +127,7 @@ namespace T1908e_Spring_Hero_Bank.Controller
             {
                 TransactionCode = Guid.NewGuid().ToString(),
                 SenderAccountNumber = account.AccountNumber,
+                ReceiverAccountNumber = account.AccountNumber,
                 Message = _inputHelper.ValidateString("Nhập lời nhắn: "),
                 Amount = amount,
                 Fee = 0,
