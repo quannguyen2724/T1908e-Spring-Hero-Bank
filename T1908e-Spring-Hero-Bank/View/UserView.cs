@@ -48,6 +48,7 @@ namespace T1908e_Spring_Hero_Bank.View
                         _transactionController.TruyVấnLịchSửGiaoDịch(account.AccountNumber);
                         break;
                     case 8:
+                        Console.WriteLine("Đăng xuất thành công!!");
                         break;
                     case 9:
                         Console.WriteLine("Goodbye!!!");

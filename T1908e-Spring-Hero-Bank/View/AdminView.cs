@@ -60,6 +60,7 @@ namespace T1908e_Spring_Hero_Bank.View
                         _accountController.ThayĐổiThôngTinAccount("MậtKhẩu","Username",_accountController.KiểmTraTàiKhoản(null));
                         break;
                     case 11:
+                        Console.WriteLine("Đăng xuất thành công!!");
                         break;
                     case 12:
                         Console.WriteLine("Googbye");

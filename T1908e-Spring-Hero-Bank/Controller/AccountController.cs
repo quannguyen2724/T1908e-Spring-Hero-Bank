@@ -57,11 +57,9 @@ namespace T1908e_Spring_Hero_Bank.Controller
             {
                 str = _inputHelper.ValidateString("Enter UserName: ");
                 list = _accountModel.GetListAccount("UserName", str);
-                Console.WriteLine("user");
             }
             else
             {
-                Console.WriteLine("number");
                 str = _inputHelper.ValidateString($"Enter {t}: ");
                 list = _accountModel.GetListAccount(t, str);
             }
@@ -197,7 +195,7 @@ namespace T1908e_Spring_Hero_Bank.Controller
 
         public void ThayĐổiThôngTinAccount(string str, string str1, Account acc)
         {
-            if (acc is null)
+            if (acc.AccountNumber is null)
             {
                 Console.WriteLine("Tài khoản không tồn tại!!!");
             }
