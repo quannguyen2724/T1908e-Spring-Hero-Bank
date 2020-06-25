@@ -28,7 +28,6 @@ namespace T1908e_Spring_Hero_Bank.Model
             }
             catch (Exception e)
             {
-                Console.WriteLine(e.Message);
                 return false;
             }
             finally
@@ -41,26 +40,37 @@ namespace T1908e_Spring_Hero_Bank.Model
         {
             var cnn = ConnectionHelper.GetConnection();
             cnn.Open();
-            var cmd = new MySqlCommand($"select * from shbaccount where username = '{username}'", cnn);
-            var reader = cmd.ExecuteReader();
-            if (reader.Read())
+            try
             {
-                _account = new Account()
+                var cmd = new MySqlCommand($"select * from shbaccount where username = '{username}'", cnn);
+                var reader = cmd.ExecuteReader();
+                if (reader.Read())
                 {
-                    AccountNumber = reader.GetString("accountNumber"),
-                    Balance = reader.GetDouble("balance"),
-                    Username = reader.GetString("username"),
-                    PasswordHash = reader.GetString("passwordHash"),
-                    Salt = reader.GetString("salt"),
-                    Email = reader.GetString("email"),
-                    Phone = reader.GetString("phone"),
-                    Fullname = reader.GetString("fullname"),
-                    Role = (AccountRole) reader.GetInt32("role"),
-                    Status = (AccountStatus) reader.GetInt32("status")
-                };
+                    _account = new Account()
+                    {
+                        AccountNumber = reader.GetString("accountNumber"),
+                        Balance = reader.GetDouble("balance"),
+                        Username = reader.GetString("username"),
+                        PasswordHash = reader.GetString("passwordHash"),
+                        Salt = reader.GetString("salt"),
+                        Email = reader.GetString("email"),
+                        Phone = reader.GetString("phone"),
+                        Fullname = reader.GetString("fullname"),
+                        Role = (AccountRole) reader.GetInt32("role"),
+                        Status = (AccountStatus) reader.GetInt32("status")
+                    };
+                }
+
+                return _account;
             }
-            cnn.Close();
-            return _account;
+            catch (Exception e)
+            {
+                return null;
+            }
+            finally
+            {
+                cnn.Close();
+            }
         }
 
         public List<Account> GetList(string key, string str)

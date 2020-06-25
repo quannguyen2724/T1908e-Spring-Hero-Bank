@@ -9,9 +9,18 @@ namespace T1908e_Spring_Hero_Bank.Entity
             get { return _accountNumber; }
             set
             {
+                for (int i = 0; i < value.Length - 1; i++)
+                {
+                    if ((value[i] != '0' && value[i] != '1' && value[i] != '2' && value[i] != '3' && value[i] != '4' &&
+                         value[i] != '5' && value[i] != '6' && value[i] != '7' && value[i] != '8' && value[i] != '9'))
+                    {
+                        throw new Exception("Bạn phải nhập vào 1 dãy số có ít nhất 8 kí tự!");
+                    }
+                }
+
                 if (value.Length < 8)
                 {
-                    throw new Exception("Số tài khoản phải có ít nhất 8 kí tự!!");
+                    throw new Exception("Bạn phải nhập vào 1 dãy số có ít nhất 8 kí tự!");
                 }
 
                 _accountNumber = value;
@@ -60,9 +69,18 @@ namespace T1908e_Spring_Hero_Bank.Entity
             get { return _phone; }
             set
             {
+                for (int i = 0; i < value.Length - 1; i++)
+                {
+                    if ((value[i] != '0' && value[i] != '1' && value[i] != '2' && value[i] != '3' && value[i] != '4' &&
+                         value[i] != '5' && value[i] != '6' && value[i] != '7' && value[i] != '8' && value[i] != '9'))
+                    {
+                        throw new Exception("Sai định dạng số điện thoại!");
+                    }
+                }
+
                 if (value.Length != 10)
                 {
-                    throw new Exception("Số điện thoại phải có 10 kí tự!!");
+                    throw new Exception("Số điện thoại phải có 10 chữ số!");
                 }
 
                 _phone = value;
@@ -91,14 +109,15 @@ namespace T1908e_Spring_Hero_Bank.Entity
 
         public override string ToString()
         {
-            return $"Account Number: {AccountNumber} |Balance: {Balance} |Username: {_username} |PasswordHash: {PasswordHash} |Salt: {Salt} |Role: {Role} |Fullname: {_fullName} |Phone: {_phone} |Email: {_email} |Status: {Status}";
+            return
+                $"Account Number: {AccountNumber} |Balance: {Balance} |Username: {_username} |PasswordHash: {PasswordHash} |Salt: {Salt} |Role: {Role} |Fullname: {_fullName} |Phone: {_phone} |Email: {_email} |Status: {Status}";
         }
     }
+
     public enum AccountRole
     {
         User = 0,
         Admin = 1
-        
     }
 
     public enum AccountStatus

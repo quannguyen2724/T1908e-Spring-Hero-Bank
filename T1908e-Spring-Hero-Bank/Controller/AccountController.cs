@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.Remoting;
 using T1908e_Spring_Hero_Bank.Entity;
 using T1908e_Spring_Hero_Bank.Helper;
 using T1908e_Spring_Hero_Bank.Model;
@@ -17,20 +18,96 @@ namespace T1908e_Spring_Hero_Bank.Controller
         {
             var account = new Account();
             Console.WriteLine("Tạo tài khoản!");
-            Console.WriteLine("Nhập số tài khoản:");
-            account.AccountNumber = Console.ReadLine();
-            Console.WriteLine("Nhập tên người dùng:");
-            account.Username = Console.ReadLine();
-            Console.WriteLine("Nhập mật khẩu:");
-            var password = Console.ReadLine();
-            account.Salt = PasswordHelper.GenerateSalt();
-            account.PasswordHash = PasswordHelper.MD5Hash(password + account.Salt);
-            Console.WriteLine("Nhập Email:");
-            account.Email = Console.ReadLine();
-            Console.WriteLine("Nhập tên đầy đủ:");
-            account.Fullname = Console.ReadLine();
-            Console.WriteLine("Nhập số điện thoại:");
-            account.Phone = Console.ReadLine();
+            while (true)
+            {
+                try
+                {
+                    Console.WriteLine("Nhập số tài khoản:");
+                    account.AccountNumber = Console.ReadLine();
+                    break;
+                }
+                catch (FormatException)
+                {
+                    Console.WriteLine("Bạn phải điền vào một dãy số có ít nhất 8 chữ số!!");
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.Message);
+                }
+                
+            }
+
+            while (true)
+            {
+                try
+                {
+                    Console.WriteLine("Nhập tên người dùng:");
+                    account.Username = Console.ReadLine();
+                    break;
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.Message);
+                }
+            }
+
+            while (true)
+            {
+                try
+                {
+                    Console.WriteLine("Nhập mật khẩu:");
+                    var password = Console.ReadLine();
+                    account.Salt = PasswordHelper.GenerateSalt();
+                    account.PasswordHash = PasswordHelper.MD5Hash(password + account.Salt);
+                    break;
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.Message);
+                }
+            }
+
+            while (true)
+            {
+                try
+                {
+                    Console.WriteLine("Nhập Email:");
+                    account.Email = Console.ReadLine();
+                    break;
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.Message);
+                }
+            }
+
+            while (true)
+            {
+                try
+                {
+                    Console.WriteLine("Nhập tên đầy đủ:");
+                    account.Fullname = Console.ReadLine();
+                    break;
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.Message);
+                }
+            }
+
+            while (true)
+            {
+                try
+                {
+                    Console.WriteLine("Nhập số điện thoại:");
+                    account.Phone = Console.ReadLine();
+                    break;
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.Message);
+                }
+            }
             account.Balance = 0;
             account.Role = AccountRole.User;
             account.Status = AccountStatus.Active;
@@ -48,31 +125,49 @@ namespace T1908e_Spring_Hero_Bank.Controller
         public Account Login()
         {
             var generateMenu = new GenerateMenu();
-            Console.WriteLine("Nhập tên người dùng: ");
-            var username = Console.ReadLine();
-            if (username.Length <= 0)
+            string username;
+            string password;
+            while (true)
             {
-                throw new Exception("Tên người dùng không được để trống");
+                Console.WriteLine("Nhập tên người dùng: ");
+                 username = Console.ReadLine();
+                if (username.Length > 2)
+                {
+                    break;
+                }
+                Console.WriteLine("Tên người dùng phải có ít nhất 3 kí tự!!");
             }
 
-            Console.WriteLine("Nhập mật khẩu: ");
-            var password = Console.ReadLine();
-            if (password.Length <= 0)
+            while (true)
             {
-                throw new Exception("Mật khẩu không được để trống");
+                Console.WriteLine("Nhập mật khẩu: ");
+                password = Console.ReadLine();
+                if (password.Length > 0)
+                {
+                    break;
+                }
+
+                Console.WriteLine("Mật khẩu không được để trống!");
             }
+           
 
             var account = _accountModel.GetAccountByUsername(username);
             if (account != null
                 && _passwordHelper.ComparePassword(password, account.Salt, account.PasswordHash))
             {
-                Console.WriteLine("Đăng nhập thành công");
-                currentAccount = account;
-                generateMenu.GetMenu(currentAccount);
-                return currentAccount;
+                if (account.Status == AccountStatus.Active)
+                {
+                    Console.WriteLine("Đăng nhập thành công");
+                    currentAccount = account;
+                    generateMenu.GetMenu(currentAccount);
+                    return currentAccount;
+                }
+
+                Console.WriteLine("Tài khoản của bạn đã bị khóa, vui lòng liên hệ admin để biết thêm thông tin!!");
+                return null;
             }
 
-            Console.WriteLine("Đăng nhập thất bại");
+            Console.WriteLine("Sai tên đăng nhập hoặc mật khẩu!!");
             return null;
         }
 
