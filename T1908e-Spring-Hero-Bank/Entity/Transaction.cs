@@ -15,9 +15,18 @@ namespace T1908e_Spring_Hero_Bank.Entity
             }
             set
             {
+                for (int i = 0; i < value.Length - 1; i++)
+                {
+                    if ((value[i] != '0' && value[i] != '1' && value[i] != '2' && value[i] != '3' && value[i] != '4' &&
+                         value[i] != '5' && value[i] != '6' && value[i] != '7' && value[i] != '8' && value[i] != '9'))
+                    {
+                        throw new Exception("Bạn phải nhập vào 1 dãy số có ít nhất 8 kí tự!");
+                    }
+                }
+
                 if (value.Length < 8)
                 {
-                    throw new Exception("Tài khoản người nhận phải có ít nhất 8 kí tự!!");
+                    throw new Exception("Bạn phải nhập vào 1 dãy số có ít nhất 8 kí tự!");
                 }
 
                 _receiverAccountNumber = value;
@@ -37,7 +46,7 @@ namespace T1908e_Spring_Hero_Bank.Entity
             {
                 if (value <= 0)
                 {
-                    throw new Exception("Số tiền phải lớn 0!!");
+                    throw new Exception("Số tiền phải lớn hơn 0!!");
                 }
 
                 _amount = value;
