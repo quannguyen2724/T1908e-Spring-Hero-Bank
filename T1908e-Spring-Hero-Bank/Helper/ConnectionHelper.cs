@@ -19,8 +19,8 @@ namespace T1908e_Spring_Hero_Bank.Helper
                 _connection =
                     new MySqlConnection(
                         $"SERVER={DatabaseServer};DATABASE={DatabaseName};UID={DatabaseUid};PASSWORD={DatabasePassword}");
-                Console.WriteLine("...success!");
             }
+
             return _connection;
         }
     }

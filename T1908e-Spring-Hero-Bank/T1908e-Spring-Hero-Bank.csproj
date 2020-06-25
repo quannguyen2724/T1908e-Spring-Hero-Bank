@@ -111,7 +111,10 @@
     <Compile Include="Model\TransactionModel.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="View\MainView.cs" />
+    <Compile Include="View\AdminView.cs" />
+    <Compile Include="View\GenerateMenu.cs" />
+    <Compile Include="View\GuessView.cs" />
+    <Compile Include="View\UserView.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

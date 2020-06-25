@@ -1,51 +1,84 @@
 ﻿using System;
-using MySql.Data.MySqlClient;
 using T1908e_Spring_Hero_Bank.Entity;
 using T1908e_Spring_Hero_Bank.Helper;
 using T1908e_Spring_Hero_Bank.Model;
+using T1908e_Spring_Hero_Bank.View;
 
 namespace T1908e_Spring_Hero_Bank.Controller
 {
     public class AccountController
     {
         private AccountModel _accountModel = new AccountModel();
-        public void CheckAccountByUsername()
-        {
-            Console.WriteLine("Enter username: ");
-            var username = Console.ReadLine();
-            var account = _accountModel.GetAccountByUsername(username);
-            if (account != null)
-            {
-                Console.WriteLine(account.ToString());
-                return;
-            }
-            Console.WriteLine("Account not found");
-        }
+        private PasswordHelper _passwordHelper = new PasswordHelper();
+        public static Account currentAccount;
 
-        public void CheckAccountByPhonenumber()
+        public void Register()
         {
-            Console.WriteLine("Enter phone number: ");
-            var phone = Console.ReadLine();
-            var account = _accountModel.GetAccountByPhone(phone);
-            if (account != null)
+            var account = new Account();
+            Console.WriteLine("Create a new account!");
+            Console.WriteLine("Enter Account Number:");
+            account.AccountNumber = Console.ReadLine();
+            Console.WriteLine("Enter Username:");
+            account.Username = Console.ReadLine();
+            Console.WriteLine("Enter Password:");
+            var password = Console.ReadLine();
+            account.Salt = PasswordHelper.GenerateSalt();
+            account.PasswordHash = PasswordHelper.MD5Hash(password + account.Salt);
+            Console.WriteLine("Enter Email:");
+            account.Email = Console.ReadLine();
+            Console.WriteLine("Enter Fullname:");
+            account.Fullname = Console.ReadLine();
+            Console.WriteLine("Enter Phone:");
+            account.Phone = Console.ReadLine();
+            account.Balance = 0;
+            account.Role = AccountRole.User;
+            account.Status = AccountStatus.Active;
+            var result = _accountModel.InsertAccount(account);
+            if (result)
+            {
+                Console.WriteLine("Đăng ký thành công!!");
+            }
+            else
+            {
+                Console.WriteLine("Đăn ký thất bại, số tài khoản, số điện thoại hoặc email đã có người sử dụng!!");
+            }
+        }
+        
+        public Account Login()
+        {
+            GenerateMenu generateMenu = new GenerateMenu();
+            try 
+            {
+                Console.WriteLine("Enter Your Username: ");
+                var username = Console.ReadLine();
+                Console.WriteLine("Enter Your Password: ");
+                var password = Console.ReadLine();
+                var account = _accountModel.GetAccountByUsername(username);
+                if (account !=null
+                    && _passwordHelper.ComparePassword(password, account.Salt, account.PasswordHash))
+                {
+                    Console.WriteLine("Đăng nhập thành công");
+                    currentAccount = account;
+                    generateMenu.GetMenu();
+                }
+                Console.WriteLine("Đăng nhập thất bại");
+                return null;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+        }
+        
+        public void ListUser()
+        {
+            foreach (var account in _accountModel.GetList())
             {
                 Console.WriteLine(account.ToString());
-                return;
             }
-            Console.WriteLine("Account not found");
         }
-
-        public void CheckAccountByAccountnumber()
-        {
-            Console.WriteLine("Enter account number: ");
-            var accountNumber = Console.ReadLine();
-            var account = _accountModel.GetAccountByAccountnumber(accountNumber);
-            if (account != null)
-            {
-                Console.WriteLine(account.ToString());
-                return;
-            }
-            Console.WriteLine("Account not found");
-        }
+        
+        
     }
 }

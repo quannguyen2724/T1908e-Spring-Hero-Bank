@@ -1,4 +1,7 @@
-﻿using MySql.Data.MySqlClient;
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using MySql.Data.MySqlClient;
 using T1908e_Spring_Hero_Bank.Entity;
 using T1908e_Spring_Hero_Bank.Helper;
 
@@ -7,6 +10,26 @@ namespace T1908e_Spring_Hero_Bank.Model
     public class AccountModel
     {
         private Account _account;
+        public bool InsertAccount(Account account)
+        {
+            try
+            {
+                var cnn = ConnectionHelper.GetConnection();
+                cnn.Open();
+                MySqlCommand cmd = new MySqlCommand("insert into shbaccount (accountNumber, balance, username, passwordHAsh, salt, role, email , fullname, phone, status) "
+                                                    + $"values( '{account.AccountNumber}',{account.Balance},'{account.Username}', '{account.PasswordHash}', '{account.Salt}', {(int) account.Role},'{account.Email}', '{account.Fullname}', '{account.Phone}', {(int) account.Status})",
+                    cnn);
+                cmd.ExecuteNonQuery();
+                cnn.Close();
+                return true;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                return false;
+            }
+        }
+
         public Account GetAccountByUsername(string username)
         {
             var cnn = ConnectionHelper.GetConnection();
@@ -25,6 +48,7 @@ namespace T1908e_Spring_Hero_Bank.Model
                     Email = reader.GetString("email"),
                     Phone = reader.GetString("phone"),
                     Fullname = reader.GetString("fullname"),
+                    Role = (AccountRole) reader.GetInt32("role"),
                     Status = (AccountStatus) reader.GetInt32("status")
                 };
             }
@@ -32,16 +56,16 @@ namespace T1908e_Spring_Hero_Bank.Model
             return _account;
         }
 
-
-        public Account GetAccountByPhone(string phone)
+        public List<Account> GetList()
         {
+            List<Account> list = new List<Account>();
             var cnn = ConnectionHelper.GetConnection();
             cnn.Open();
-            var cmd = new MySqlCommand($"select * from shbaccount where phone = '{phone}'", cnn);
+            var cmd = new MySqlCommand("select * from shbaccount where role = 0",cnn);
             var reader = cmd.ExecuteReader();
-            if (reader.Read())
+            while (reader.Read())
             {
-                _account = new Account()
+                list.Add(new Account()
                 {
                     AccountNumber = reader.GetString("accountNumber"),
                     Balance = reader.GetDouble("balance"),
@@ -51,36 +75,12 @@ namespace T1908e_Spring_Hero_Bank.Model
                     Email = reader.GetString("email"),
                     Phone = reader.GetString("phone"),
                     Fullname = reader.GetString("fullname"),
+                    Role = (AccountRole) reader.GetInt32("role"),
                     Status = (AccountStatus) reader.GetInt32("status")
-                };
+                });
             }
             cnn.Close();
-            return _account;
-        }
-
-        public Account GetAccountByAccountnumber(string accountNumber)
-        {
-            var cnn = ConnectionHelper.GetConnection();
-            cnn.Open();
-            var cmd = new MySqlCommand($"select * from shbaccount where accountNumber = '{accountNumber}'", cnn);
-            var reader = cmd.ExecuteReader();
-            if (reader.Read())
-            {
-                _account = new Account()
-                {
-                    AccountNumber = reader.GetString("accountNumber"),
-                    Balance = reader.GetDouble("balance"),
-                    Username = reader.GetString("username"),
-                    PasswordHash = reader.GetString("passwordHash"),
-                    Salt = reader.GetString("salt"),
-                    Email = reader.GetString("email"),
-                    Phone = reader.GetString("phone"),
-                    Fullname = reader.GetString("fullname"),
-                    Status = (AccountStatus) reader.GetInt32("status")
-                };
-            }
-            cnn.Close();
-            return _account;
+            return list;
         }
     }
 }

@@ -6,7 +6,7 @@ namespace T1908e_Spring_Hero_Bank.Helper
 {
     public class PasswordHelper
     {
-        public string MD5Hash(string input)
+        public static string MD5Hash(string input)
         {
             var hash = new StringBuilder();
             var md5provider = new MD5CryptoServiceProvider();
@@ -18,7 +18,7 @@ namespace T1908e_Spring_Hero_Bank.Helper
             return hash.ToString();
         }
 
-        public string GenerateSalt()
+        public static string GenerateSalt()
         {
             int size = 7;
             var builder = new StringBuilder();
@@ -36,5 +36,7 @@ namespace T1908e_Spring_Hero_Bank.Helper
         {
             return MD5Hash(password + accountSalt) == accountPasswordHash;
         }
+
     }
+  
 }

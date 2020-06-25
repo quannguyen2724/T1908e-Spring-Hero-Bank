@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Text;
 using T1908e_Spring_Hero_Bank.Controller;
+using T1908e_Spring_Hero_Bank.View;
 
 namespace T1908e_Spring_Hero_Bank
 {
@@ -7,12 +9,9 @@ namespace T1908e_Spring_Hero_Bank
     {
         public static void Main(string[] args)
         {
-           AccountController accountController = new AccountController();
-           accountController.CheckAccountByAccountnumber();
-           Console.WriteLine("qweqwe");
-           Console.WriteLine("qweqwe");
-           Console.WriteLine("qweqwe");
-           Console.WriteLine("qweqwe");
+            Console.OutputEncoding = Encoding.UTF8;
+            var generateMenu = new GenerateMenu();
+            generateMenu.GetMenu();
         }
     }
 }
