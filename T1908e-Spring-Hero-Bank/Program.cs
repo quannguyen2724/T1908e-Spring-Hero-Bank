@@ -11,7 +11,7 @@ namespace T1908e_Spring_Hero_Bank
         {
             Console.OutputEncoding = Encoding.UTF8;
             var generateMenu = new GenerateMenu();
-            generateMenu.GetMenu();
+            generateMenu.GetMenu(AccountController.currentAccount);
         }
     }
 }

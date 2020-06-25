@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using MySql.Data.MySqlClient;
 using T1908e_Spring_Hero_Bank.Entity;
 using T1908e_Spring_Hero_Bank.Helper;
@@ -18,12 +20,12 @@ namespace T1908e_Spring_Hero_Bank.Model
             {
                 //kiểm tra tài khoản
                 var strGetAccount =
-                    $"select balance from SHBAccount where accountNumber = {accountNumber} and status = {(int) AccountStatus.Active}";
+                    $"select balance from shbaccount where accountNumber = {accountNumber} and status = {(int) AccountStatus.Active}";
                 var cmdGetAccount = new MySqlCommand(strGetAccount, cnn);
                 var accountReader = cmdGetAccount.ExecuteReader();
                 if (!accountReader.Read())
                 {
-                    throw new Exception("Account is not found or has been deleted!");
+                    throw new Exception("Tài khoản không tồn tại hoặc đã bị xóa!");
                 }
 
                 // lấy ra số dư hiện tại
@@ -58,7 +60,7 @@ namespace T1908e_Spring_Hero_Bank.Model
                 cmdInsertTransaction.ExecuteNonQuery();
 
                 transaction.Commit();
-                Console.WriteLine("Deposit success!");
+                Console.WriteLine("Gửi tiền thành công!");
                 return true;
 
             }
@@ -85,7 +87,7 @@ namespace T1908e_Spring_Hero_Bank.Model
             {
                 if (amount <= 0)
                 {
-                    throw new Exception("Invalid amount!");
+                    throw new Exception("Số tiền không hợp lệ!");
                 }
                 
                 //kiểm tra tài khoản
@@ -94,7 +96,7 @@ namespace T1908e_Spring_Hero_Bank.Model
                 var accountReader = cmdGetAccount.ExecuteReader();
                 if (!accountReader.Read())
                 {
-                    throw new Exception("Account is not found or has been deleted!");
+                    throw new Exception("Tài khoản không tìm thấy hoặc đã bị xóa!");
                 }
                 // lấy ra số dư hiện tại
                 var currentBalance = accountReader.GetDouble("balance");
@@ -104,7 +106,7 @@ namespace T1908e_Spring_Hero_Bank.Model
                 currentBalance -= amount;
                 if (currentBalance <= 0)
                 {
-                    throw new Exception("Invalid amount");
+                    throw new Exception("Số tiền không hợp lệ");
                 }
                 var strUpdateAccount =
                     $"update shbaccount set balance = {currentBalance} where accountNumber = {accountNumber} and status = {(int) AccountStatus.Active}";
@@ -132,7 +134,7 @@ namespace T1908e_Spring_Hero_Bank.Model
                 cmdInsertTransaction.ExecuteNonQuery();
                 
                 transaction.Commit();
-                Console.WriteLine("Withdraw success!");
+                Console.WriteLine("Rút tiền thành công!");
                 return true;
             }
             catch (Exception e)
@@ -160,7 +162,7 @@ namespace T1908e_Spring_Hero_Bank.Model
                 var message = Console.ReadLine();
                 if (amount <= 0)
                 {
-                    throw new Exception("Invalid amount!");
+                    throw new Exception("Số tiền không hợp lệ!");
                 }
                 
                 //Kiểm tra tài khoản chuyển tiền.
@@ -169,7 +171,7 @@ namespace T1908e_Spring_Hero_Bank.Model
                 var senderAccountReader = cmdGetSenderAccount.ExecuteReader();
                 if (!senderAccountReader.Read())
                 {
-                    throw new Exception("Account is not found or has been deleted!");
+                    throw new Exception("Tài khoản không tồn tại hoặc đã bị khóa!");
                 }
                 // lấy ra số dư hiện tại của tài khoản chuyển tiền.
                 var currentSenderBalance = senderAccountReader.GetDouble("balance");
@@ -181,7 +183,7 @@ namespace T1908e_Spring_Hero_Bank.Model
                 var receiverAccountReader = cmdGetReceiverAccount.ExecuteReader();
                 if (!receiverAccountReader.Read())
                 { 
-                  throw  new Exception("Account is not found or has been deleted!");
+                  throw  new Exception("Tài khoản không tìm thấy hoặc đã bị khóa!");
                 }
                 // lấy ra số dư hiện tại của tài khoản nhận tiền.
                 var currentReceiverBalance = receiverAccountReader.GetDouble("Balance");
@@ -191,7 +193,7 @@ namespace T1908e_Spring_Hero_Bank.Model
                 currentSenderBalance -= amount;
                 if ( currentSenderBalance <= 0)
                 {
-                    throw new Exception("Invalid amount");
+                    throw new Exception("Số tiền không hợp lệ");
                 }
                 var strUpdateSenderAccount =
                     $"update shbaccount set balance = {currentSenderBalance} where accountNumber = {senderAccountNumber} and status = {(int) AccountStatus.Active}";
@@ -225,7 +227,7 @@ namespace T1908e_Spring_Hero_Bank.Model
                 cmdInsertTransaction.ExecuteNonQuery();
                 
                 transaction.Commit();
-                Console.WriteLine("Transfer success!");
+                Console.WriteLine("Chuyển tiền thành công!");
                 return true;
             }
             catch (Exception e)
@@ -238,6 +240,135 @@ namespace T1908e_Spring_Hero_Bank.Model
                 cnn.Close();
             }
             return false;
+        }
+
+        public List<Transaction> GetTransactionHistory(string accountNumber)
+        {
+            var listTransaction = new List<Transaction>();
+            var cnn = ConnectionHelper.GetConnection();
+            cnn.Open();
+            var strGetListTransaction = $"select * from shbtransaction where senderAccountNumber = '{accountNumber}' or receiverAccountNumber = '{accountNumber}'";
+            var cmdGetListTransaction = new MySqlCommand(strGetListTransaction, cnn);
+            var reader = cmdGetListTransaction.ExecuteReader();
+            while (reader.Read())
+            {
+                listTransaction.Add(new Transaction()
+                {
+                    TransactionCode = reader.GetString("transactionCode"),
+                    SenderAccountNumber = reader.GetString("senderAccountNumber"),
+                    ReceiverAccountNumber = reader.GetString("receiverAccountNumber"),
+                    Type = (TransactionType) reader.GetInt32("type"),
+                    Amount = reader.GetDouble("amount"),
+                    Fee = reader.GetDouble("fee"),
+                    Message = reader.GetString("message"),
+                    CreatedAt = reader.GetDateTime("createdAt"),
+                    UpdatedAt = reader.GetDateTime("updateAt"),
+                    Status = (TransactionStatus) reader.GetInt32("status")
+                });
+            }
+            cnn.Close();
+            return listTransaction;
+        }
+
+        public List<Transaction> GetAllTransactionHistory()
+        {
+            var listTransaction = new List<Transaction>();
+            var cnn = ConnectionHelper.GetConnection();
+            cnn.Open();
+            try
+            {
+                var strGetListTransaction = "select * from shbtransaction";
+                var cmdGetListTransaction = new MySqlCommand(strGetListTransaction, cnn);
+                var reader = cmdGetListTransaction.ExecuteReader();
+                while (reader.Read())
+                {
+                    listTransaction.Add(new Transaction()
+                    {
+                        TransactionCode = reader.GetString("transactionCode"),
+                        SenderAccountNumber = reader.GetString("senderAccountNumber"),
+                        ReceiverAccountNumber = reader.GetString("receiverAccountNumber"),
+                        Type = (TransactionType) reader.GetInt32("type"),
+                        Amount = reader.GetDouble("amount"),
+                        Fee = reader.GetDouble("fee"),
+                        Message = reader.GetString("message"),
+                        CreatedAt = reader.GetDateTime("createdAt"),
+                        UpdatedAt = reader.GetDateTime("updateAt"),
+                        Status = (TransactionStatus) reader.GetInt32("status")
+                    });
+                }
+
+                return listTransaction;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return null;
+            }
+            finally
+            {
+                cnn.Close();
+            }
+        }
+        
+        public void TransactionPage(List<Transaction> list)
+        {
+            var i = 0;
+            while (true)
+            {
+                Console.Clear();
+                var j = i + 1;
+                int sum = list.Count % 5 > 0 ? ((list.Count / 5) + 1) : list.Count;
+                Console.WriteLine("Lịch sử giao dịch:");
+                Console.WriteLine(
+                    "TransactionCode | SenderAccountNumber | ReceiverAccountNumber | Message | Amount | Fee | Type | Status | UpdatedAt");
+                var s = "";
+                foreach (var acc in list.GetRange(i * 5, (j == sum) ? (list.Count % 5) : 5))
+                {
+                    Console.WriteLine(acc.ToString());
+                }
+
+                if (sum == 1)
+                {
+                    break;
+                }
+
+                Console.WriteLine($"Trang {j}/{sum}");
+                Console.WriteLine("Nhập '< >' để chuyển trang, 'Backspace' Để quay lại!!!");
+                string key = Console.ReadKey().Key.ToString();
+                switch (key)
+                {
+                    case "LeftArrow":
+                        if (i == 0)
+                        {
+                            i = sum - 1;
+                        }
+                        else
+                        {
+                            i--;
+                        }
+
+                        break;
+                    case "RightArrow":
+                        if (i == sum - 1)
+                        {
+                            i = 0;
+                        }
+                        else
+                        {
+                            i++;
+                        }
+
+                        break;
+                    case "Backspace":
+                        break;
+                }
+
+                if (key.Equals("Backspace"))
+                {
+                    Console.WriteLine("Enter để xác nhận!!!");
+                    break;
+                }
+            }
         }
     }
 }

@@ -15,7 +15,7 @@ namespace T1908e_Spring_Hero_Bank.Helper
         {
             if (_connection == null)
             {
-                Console.WriteLine("Create new connection...");
+                Console.WriteLine("Tạo kết nối mới...");
                 _connection =
                     new MySqlConnection(
                         $"SERVER={DatabaseServer};DATABASE={DatabaseName};UID={DatabaseUid};PASSWORD={DatabasePassword}");

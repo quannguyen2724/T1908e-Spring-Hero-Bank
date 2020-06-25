@@ -6,19 +6,19 @@ namespace T1908e_Spring_Hero_Bank.View
 {
     public class GenerateMenu
     {
-        public void GetMenu()
+        public void GetMenu(Account account)
         {
-            if (AccountController.currentAccount == null)
+            if (account == null)
             {
                 GuessView.GenerateGuessMenu();
             }
             else
             {
-                if (AccountController.currentAccount.Role ==  AccountRole.User)
+                if (account.Role ==  AccountRole.User)
                 {
                     UserView.GenerateUserMenu();
                 }
-                else if(AccountController.currentAccount.Role == AccountRole.Admin)
+                else if (account.Role == AccountRole.Admin)
                 {
                     AdminView.GenerateAdminMenu();
                 }

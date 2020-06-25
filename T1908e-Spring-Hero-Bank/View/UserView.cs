@@ -8,6 +8,7 @@ namespace T1908e_Spring_Hero_Bank.View
         public static void GenerateUserMenu()
         {
             var transactionController = new TransactionController();
+            var accountController = new AccountController();
             var generateMenu = new GenerateMenu();
             while (true)
             {
@@ -41,43 +42,39 @@ namespace T1908e_Spring_Hero_Bank.View
                             transactionController.Transfer();
                             break;
                         case 4:
-                            Console.WriteLine("Truy van so du");
+                            accountController.BalanceQty();
                             break;
                         case 5:
-                            Console.WriteLine("Thay doi thong tin");
+                            accountController.UpdateAccountInfor();
                             break;
                         case 6:
-                            Console.WriteLine("Thay doi mat khau");
+                            accountController.UpdateAccountPassword();
                             break;
                         case 7:
-                            Console.WriteLine("Truy van lich su giao dich");
+                            transactionController.PrintListTransaction();
                             break;
                         case 8:
-                            Console.WriteLine("Dang xuat");
+                            Console.WriteLine("Đăng xuất");
                             break;
                         case 9:
-                            Console.WriteLine("Goodbye!!!");
-                            return;
+                            Console.WriteLine("Tạm biệt và hẹn gặp lại!!!");
+                            Environment.Exit(0);
+                            break;
                         default:
                             Console.WriteLine("Chọn 1 - 9");
                             break;
                     }
-
-
+                    
                     if (choice == 8)
                     {
                         AccountController.currentAccount = null;
-                        generateMenu.GetMenu();
+                        generateMenu.GetMenu(AccountController.currentAccount);
                     }
-
-                    if (choice == 9)
-                    {
-                        break;
-                    }
+                    
                 }
                 catch (Exception e)
                 {
-                    
+                    Console.WriteLine(e.Message);
                 }
                 Console.ReadLine();
 
