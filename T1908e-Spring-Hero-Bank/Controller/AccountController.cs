@@ -12,6 +12,7 @@ namespace T1908e_Spring_Hero_Bank.Controller
         
         private AccountModel _accountModel = new AccountModel();
         private PasswordHelper _passwordHelper = new PasswordHelper();
+        private GenerateMenu generateMenu = new GenerateMenu();
         public static Account currentAccount;
 
         public void Register()
@@ -124,7 +125,7 @@ namespace T1908e_Spring_Hero_Bank.Controller
 
         public Account Login()
         {
-            var generateMenu = new GenerateMenu();
+            
             string username;
             string password;
             while (true)
@@ -176,16 +177,13 @@ namespace T1908e_Spring_Hero_Bank.Controller
             var listUser = _accountModel.GetList(null, null);
             if (listUser.Count > 0)
             {
-                foreach (var account in listUser)
-                {
-                    Console.WriteLine(account.ToString());
-                }
+                _accountModel.AccountPage(listUser);
             }
             else
             {
                 Console.WriteLine("Không có tài khoản nào");
             }
-            _accountModel.AccountPage(listUser);
+           
         }
 
         public void BalanceQty()
@@ -202,8 +200,20 @@ namespace T1908e_Spring_Hero_Bank.Controller
             else
             {
                 var userAccount = new Account();
-                Console.WriteLine("Nhập số tài khoản muốn thay đổi thông tin: ");
-                userAccount.AccountNumber = Console.ReadLine();
+                
+                while (true)
+                {
+                    try
+                    {
+                        Console.WriteLine("Nhập số tài khoản muốn thay đổi thông tin: ");
+                        userAccount.AccountNumber = Console.ReadLine();
+                        break;
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine(e.Message);
+                    }
+                }
                 _accountModel.UpdatetAccount(userAccount.AccountNumber, "updateInfor");
             }
         }
@@ -217,8 +227,19 @@ namespace T1908e_Spring_Hero_Bank.Controller
             else
             {
                 var userAccount = new Account();
-                Console.WriteLine("Nhập số tài khoản muốn thay đổi mật khẩu: ");
-                userAccount.AccountNumber = Console.ReadLine();
+                while (true)
+                {
+                    try
+                    {
+                        Console.WriteLine("Nhập số tài khoản muốn thay đổi mật khẩu: ");
+                        userAccount.AccountNumber = Console.ReadLine();
+                        break;
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine(e.Message);
+                    }
+                }
                 _accountModel.UpdatetAccount(userAccount.AccountNumber, "updatePassword");
             }
         }
@@ -226,9 +247,21 @@ namespace T1908e_Spring_Hero_Bank.Controller
         public void UpdateAccountStatus()
         {
             var userAccount = new Account();
-            Console.WriteLine("Nhập số tài khoản muốn thay đổi trạng thái: ");
-            userAccount.AccountNumber = Console.ReadLine();
+            while (true)
+            {
+                try
+                {
+                    Console.WriteLine("Nhập số tài khoản muốn thay đổi trạng thái: ");
+                    userAccount.AccountNumber = Console.ReadLine();
+                    break;
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.Message);
+                }
+            }
             _accountModel.UpdatetAccount(userAccount.AccountNumber, "activeAccount");
+         generateMenu.GetMenu(currentAccount);   
         }
 
         public void FindUserByUsername()
@@ -250,9 +283,25 @@ namespace T1908e_Spring_Hero_Bank.Controller
         public void FindUserByPhone()
         {
             var acc = new Account();
-            Console.WriteLine("Nhập số điện thoại: ");
-            acc.Phone = Console.ReadLine();
-            _accountModel.GetList("phone", acc.Phone);
+            
+            while (true)
+            {
+                try
+                {
+                    Console.WriteLine("Nhập số điện thoại: ");
+                    acc.Phone = Console.ReadLine();
+                    break;
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.Message);
+                }
+            }
+            var result = _accountModel.GetList("phone", acc.Phone);
+            if (result == null)
+            {
+                Console.WriteLine("Không tìm thấy người dùng nào!!");
+            }
         }
     }
 }
