@@ -74,7 +74,7 @@ namespace T1908e_Spring_Hero_Bank.View
                 }
                 catch (Exception e)
                 {
-                    Console.WriteLine(e.Message);
+                    Console.WriteLine("Bạn phải nhập vào 1 số!!");
                 }
                 Console.ReadLine();
 
