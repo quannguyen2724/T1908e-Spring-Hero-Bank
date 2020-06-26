@@ -269,16 +269,38 @@ namespace T1908e_Spring_Hero_Bank.Controller
         public void FindUserByUsername()
         {
             var acc = new Account();
-            Console.WriteLine("Nhập tên người dùng: ");
-            acc.Username = Console.ReadLine();
+            while (true)
+            {
+                try
+                {
+                    Console.WriteLine("Nhập tên người dùng: ");
+                    acc.Username = Console.ReadLine();
+                    break;
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.Message);
+                }
+            }
             _accountModel.GetList("username", acc.Username);
         }
 
         public void FindUserByAccountNumber()
         {
             var acc = new Account();
-            Console.WriteLine("Nhập số tài khoản: ");
-            acc.AccountNumber = Console.ReadLine();
+            while (true)
+            {
+                try
+                {
+                    Console.WriteLine("Nhập số tài khoản: ");
+                    acc.AccountNumber = Console.ReadLine();
+                    break;
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.Message);
+                }
+            }
             _accountModel.GetList("accountNumber", acc.AccountNumber);
         }
 
