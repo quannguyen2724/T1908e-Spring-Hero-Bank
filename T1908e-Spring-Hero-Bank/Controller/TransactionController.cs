@@ -11,24 +11,100 @@ namespace T1908e_Spring_Hero_Bank.Controller
 
         public void Deposit()
         {
-            Console.WriteLine("Nhập số tiền: ");
-            var amount = double.Parse(Console.ReadLine());
+            double amount;
+            while (true)
+            {
+                try
+                {
+                    Console.WriteLine("Nhập số tiền: ");
+                    amount = double.Parse(Console.ReadLine());
+                    if (amount <= 0)
+                    {
+                        throw new Exception("Số tiền gửi phải lớn hơn 0");
+                    }
+
+                    break;
+                }
+                catch (FormatException e)
+                {
+                    Console.WriteLine("Bạn phải nhập vào 1 số!");
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.Message);
+                }
+            }
             _transactionModel.Deposit(AccountController.currentAccount.AccountNumber, amount);
         }
 
         public void Withdraw()
         {
-            Console.WriteLine("Nhập số tiền: ");
-            var amount = double.Parse(Console.ReadLine());
+            double amount;
+            while (true)
+            {
+                try
+                {
+                    Console.WriteLine("Nhập số tiền: ");
+                    amount = double.Parse(Console.ReadLine());
+                    if (amount <= 0)
+                    {
+                        throw new Exception("Số tiền gửi phải lớn hơn 0");
+                    }
+
+                    break;
+                }
+                catch (FormatException e)
+                {
+                    Console.WriteLine("Bạn phải nhập vào 1 số!");
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.Message);
+                }
+            }
             _transactionModel.Withdraw(AccountController.currentAccount.AccountNumber, amount);
         }
 
         public void Transfer()
         {
-            Console.WriteLine("Nhập số tài khoản hưởng thụ: ");
-            var receiverAccount = Console.ReadLine();
-            Console.WriteLine("Nhập số tiền: ");
-            var amount = double.Parse(Console.ReadLine());
+            string receiverAccount;
+            var receiveraccount = new Account();
+            while (true)
+            {
+                try
+                {
+                    Console.WriteLine("Nhập số tài khoản hưởng thụ: ");
+                    receiveraccount.AccountNumber = Console.ReadLine();
+                    break;
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.Message);
+                }
+            }
+            receiverAccount = receiveraccount.AccountNumber;
+            double amount;
+            while (true)
+            {
+                try
+                {
+                    Console.WriteLine("Nhập số tiền: ");
+                    amount = double.Parse(Console.ReadLine());
+                    if (amount <= 0)
+                    {
+                        throw new Exception("Số tiền gửi phải lớn hơn 0");
+                    }
+                    break;
+                }
+                catch (FormatException e)
+                {
+                    Console.WriteLine("Bạn phải nhập vào 1 số!");
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.Message);
+                }
+            }
             _transactionModel.Transfer(AccountController.currentAccount.AccountNumber, receiverAccount, amount);
         }
 
@@ -37,8 +113,21 @@ namespace T1908e_Spring_Hero_Bank.Controller
             string accountNumber;
             if (AccountController.currentAccount.Role == AccountRole.Admin)
             {
-                Console.WriteLine("Vui lòng nhập số tài khoản cần kiểm tra giao dịch:");
-                accountNumber = Console.ReadLine();
+                Account account = new Account();
+                while (true)
+                {
+                    try
+                    {
+                        Console.WriteLine("Vui lòng nhập số tài khoản cần kiểm tra giao dịch:");
+                        account.AccountNumber = Console.ReadLine();
+                        break;
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine(e.Message);
+                    }
+                }
+                accountNumber = account.AccountNumber;
             }
             else
             {
@@ -50,11 +139,7 @@ namespace T1908e_Spring_Hero_Bank.Controller
                 "------------------------------------------------------------------------------------------------");
             if (listTransaction.Count > 0)
             {
-                foreach (var transaction in listTransaction)
-                {
-                    Console.WriteLine(
-                        $"{transaction.TransactionCode} | {transaction.SenderAccountNumber} | {transaction.ReceiverAccountNumber} | {transaction.Type} | {transaction.Amount} | {transaction.Fee} | {transaction.Message} | {transaction.CreatedAt} | {transaction.UpdatedAt} | {transaction.Status}");
-                }
+                _transactionModel.TransactionPage(listTransaction);
             }
             else
             {
@@ -62,7 +147,7 @@ namespace T1908e_Spring_Hero_Bank.Controller
             }
             Console.WriteLine(
                 "-------------------------------------------------------------------------------------------------");
-            _transactionModel.TransactionPage(listTransaction);
+         
         }
 
         public void PrintlistTransactionHistory()
