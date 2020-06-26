@@ -188,6 +188,8 @@ namespace T1908e_Spring_Hero_Bank.Controller
 
         public void BalanceQty()
         {
+            var account = _accountModel.GetAccountByUsername(currentAccount.Username);
+            currentAccount.Balance = account.Balance;
             Console.WriteLine($"Số dư trong tài khoản của bạn là: {currentAccount.Balance}");
         }
 
