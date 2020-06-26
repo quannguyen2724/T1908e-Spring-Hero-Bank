@@ -8,7 +8,7 @@ namespace T1908e_Spring_Hero_Bank.View
     {
         public void GetMenu(Account account)
         {
-            if (account == null)
+            if (account == null || account.Status != AccountStatus.Active)
             {
                 GuessView.GenerateGuessMenu();
             }
