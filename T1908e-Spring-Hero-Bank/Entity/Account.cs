@@ -17,7 +17,6 @@ namespace T1908e_Spring_Hero_Bank.Entity
                         throw new Exception("Bạn phải nhập vào 1 dãy số có ít nhất 8 kí tự!");
                     }
                 }
-
                 if (value.Length < 8)
                 {
                     throw new Exception("Bạn phải nhập vào 1 dãy số có ít nhất 8 kí tự!");
@@ -110,7 +109,7 @@ namespace T1908e_Spring_Hero_Bank.Entity
         public override string ToString()
         {
             return
-                $"Account Number: {AccountNumber} |Balance: {Balance} |Username: {_username} |PasswordHash: {PasswordHash} |Salt: {Salt} |Role: {Role} |Fullname: {_fullName} |Phone: {_phone} |Email: {_email} |Status: {Status}";
+                $"  {_accountNumber}  |  {Balance}  | {_username} | {PasswordHash} | {Salt} | {Role} | {_fullName} | {_phone} | {_email} | {Status}";
         }
     }
 

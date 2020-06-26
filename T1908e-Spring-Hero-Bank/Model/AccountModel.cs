@@ -94,6 +94,7 @@ namespace T1908e_Spring_Hero_Bank.Model
                     cmd = new MySqlCommand($"select * from shbaccount where {key} = '{str}'", cnn);
                     break;
             }
+
             var reader = cmd.ExecuteReader();
             while (reader.Read())
             {
@@ -111,8 +112,10 @@ namespace T1908e_Spring_Hero_Bank.Model
                     Status = (AccountStatus) reader.GetInt32("status")
                 });
             }
+            Console.WriteLine(
+                "AccountNumber| Balance |    Username   |           PasswordHash           |   Salt  | Role |  Fullname  |   Phone    |          Email          | Status");
             Console.WriteLine(_account.ToString());
-            
+
             cnn.Close();
             return list;
         }
@@ -139,6 +142,8 @@ namespace T1908e_Spring_Hero_Bank.Model
                     Status = (AccountStatus) reader.GetInt32("status")
                 };
                 Console.WriteLine("Thông tin tài khoản: ");
+                Console.WriteLine(
+                    "AccountNumber| Balance |    Username   |           PasswordHash           |   Salt  | Role |  Fullname  |   Phone    |          Email          | Status");
                 Console.WriteLine(account.ToString());
             }
             else
@@ -232,9 +237,11 @@ namespace T1908e_Spring_Hero_Bank.Model
             {
                 Console.Clear();
                 var j = i + 1;
-                int sum = listUser.Count % 5 > 0 ? ((listUser.Count / 5) + 1) : listUser.Count;
+                int sum = listUser.Count % 5 > 0 ? ((listUser.Count / 5) + 1) : listUser.Count/5;
+                Console.WriteLine(
+                    "AccountNumber| Balance |    Username   |           PasswordHash           |   Salt  | Role |  Fullname  |   Phone    |          Email          | Status");
                 var s = "";
-                foreach (var acc in listUser.GetRange(i * 5, (j == sum) ? (listUser.Count % 5) : 5))
+                foreach (var acc in listUser.GetRange(i * 5, (j<  sum) ?5: (listUser.Count-i*5)))
                 {
                     Console.WriteLine(acc.ToString());
                 }
@@ -274,6 +281,7 @@ namespace T1908e_Spring_Hero_Bank.Model
                     case "Backspace":
                         break;
                 }
+
                 if (key.Equals("Backspace"))
                 {
                     Console.WriteLine("Enter để xác nhận!!!");

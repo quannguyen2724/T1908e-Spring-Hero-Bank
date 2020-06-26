@@ -320,7 +320,7 @@ namespace T1908e_Spring_Hero_Bank.Model
                 int sum = list.Count % 5 > 0 ? ((list.Count / 5) + 1) : list.Count;
                 Console.WriteLine("Lịch sử giao dịch:");
                 Console.WriteLine(
-                    "TransactionCode | SenderAccountNumber | ReceiverAccountNumber | Message | Amount | Fee | Type | Status | UpdatedAt");
+                    "           TransactionCode           | SenderAccountNumber | ReceiverAccountNumber |     Message    | Amount | Fee |   Type   |       CreatedAt     |       UpdatedAt     | Status");
                 var s = "";
                 foreach (var acc in list.GetRange(i * 5, (j == sum) ? (list.Count % 5) : 5))
                 {

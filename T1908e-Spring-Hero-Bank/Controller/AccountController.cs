@@ -174,18 +174,16 @@ namespace T1908e_Spring_Hero_Bank.Controller
         public void ListUser()
         {
             var listUser = _accountModel.GetList(null, null);
+            
             if (listUser.Count > 0)
             {
-                foreach (var account in listUser)
-                {
-                    Console.WriteLine(account.ToString());
-                }
+                _accountModel.AccountPage(listUser);
             }
             else
             {
                 Console.WriteLine("Không có tài khoản nào");
             }
-            _accountModel.AccountPage(listUser);
+            
         }
 
         public void BalanceQty()

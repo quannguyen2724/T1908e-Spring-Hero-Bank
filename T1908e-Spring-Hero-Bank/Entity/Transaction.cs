@@ -62,7 +62,7 @@ namespace T1908e_Spring_Hero_Bank.Entity
 
         public override string ToString()
         {
-            return $"{TransactionCode} | {SenderAccountNumber} | {ReceiverAccountNumber} | {Message} | {_amount} | {Fee} | {Type} | {CreatedAt} | {UpdatedAt} | {Status}";
+            return $"{TransactionCode} |      {SenderAccountNumber}     |       {_receiverAccountNumber}      | {Message} | {_amount}  |  {Fee}  | {Type} | {CreatedAt} | {UpdatedAt} | {Status}";
         }
     }
     
