@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using MySql.Data.MySqlClient;
-using T1908e_Spring_Hero_Bank.Controller;
 using T1908e_Spring_Hero_Bank.Entity;
 using T1908e_Spring_Hero_Bank.Helper;
 

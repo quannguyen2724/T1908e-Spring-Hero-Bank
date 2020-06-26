@@ -317,12 +317,11 @@ namespace T1908e_Spring_Hero_Bank.Model
             {
                 Console.Clear();
                 var j = i + 1;
-                int sum = list.Count % 5 > 0 ? ((list.Count / 5) + 1) : list.Count;
-                Console.WriteLine("Lịch sử giao dịch:");
+                int sum = list.Count % 5 > 0 ? ((list.Count / 5) + 1) : list.Count/5;
                 Console.WriteLine(
                     "           TransactionCode           | SenderAccountNumber | ReceiverAccountNumber |     Message    | Amount | Fee |   Type   |       CreatedAt     |       UpdatedAt     | Status");
                 var s = "";
-                foreach (var acc in list.GetRange(i * 5, (j == sum) ? (list.Count % 5) : 5))
+                foreach (var acc in list.GetRange(i * 5, (j<  sum) ?5: (list.Count-i*5)))
                 {
                     Console.WriteLine(acc.ToString());
                 }
